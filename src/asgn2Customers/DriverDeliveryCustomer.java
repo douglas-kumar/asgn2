@@ -54,7 +54,7 @@ public class DriverDeliveryCustomer extends Customer {
      */
     @Override
     public double getDeliveryDistance() {
-        int manhattanDistance = Math.abs(this.getLocationX()) + Math.abs(this.getLocationY());
+        double manhattanDistance = Math.abs(this.getLocationX()) + Math.abs(this.getLocationY());
         return manhattanDistance;
     }
 
