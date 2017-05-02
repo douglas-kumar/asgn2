@@ -9,7 +9,7 @@ import asgn2Exceptions.CustomerException;
  * customer and the restaurant. A description of the class's fields and their
  * constraints is provided in Section 5.2 of the Assignment Specification.
  * 
- * @author PersonB
+ * @author Person B - Douglas
  *
  */
 public class DroneDeliveryCustomer extends Customer {
