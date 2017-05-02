@@ -43,6 +43,15 @@ public class CustomerFactory {
      */
     public static Customer getCustomer(String customerCode, String name, String mobileNumber, int locationX,
             int locationY) throws CustomerException {
-        // TO DO
+        switch (customerCode) {
+        case ("PUC"):
+            return new PickUpCustomer(name, mobileNumber, locationX, locationY);
+        case ("DVC"):
+            return new DriverDeliveryCustomer(name, mobileNumber, locationX, locationY);
+        case ("DNC"):
+            return new DroneDeliveryCustomer(name, mobileNumber, locationX, locationY);
+        default:
+            throw new CustomerException();
+        }
     }
 }
