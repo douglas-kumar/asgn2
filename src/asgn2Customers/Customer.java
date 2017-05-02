@@ -69,15 +69,6 @@ public abstract class Customer {
     }
 
     /**
-     * Returns the Customer's mobile number.
-     * 
-     * @return The Customer's mobile number.
-     */
-    public final String getMobileNumber() {
-        // TO DO
-    }
-
-    /**
      * Returns a human understandable description of the Customer's type. The
      * valid alternatives are listed in Section 5.2 of the Assignment
      * Specification.
