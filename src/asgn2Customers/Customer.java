@@ -41,6 +41,7 @@ public abstract class Customer {
 	 */
 	public final String getName(){
 		// TO DO
+		//George
 	}
 	
 	/**
