@@ -32,6 +32,7 @@ public abstract class Customer {
 	 */
 	public Customer(String name, String mobileNumber, int locationX, int locationY, String type) throws CustomerException{
 		// TO DO
+		// HELLO DOUGLAS!!!!
 	}
 	
 	/**
