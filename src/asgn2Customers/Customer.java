@@ -49,6 +49,7 @@ public abstract class Customer {
         // Hey there Cal
     }
 
+<<<<<<< HEAD
     /**
      * Returns the Customer's name.
      * 
@@ -57,6 +58,46 @@ public abstract class Customer {
     public final String getName() {
         // TO DO
     }
+=======
+	/**
+	 *  This class represents a customer of the Pizza Palace restaurant.  A detailed description of the class's fields
+	 *  and parameters is provided in the Assignment Specification, in particular in Section 5.2. 
+	 *  A CustomerException is thrown if the any of the constraints listed in Section 5.2 of the Assignment Specification
+	 *  are violated. 
+	 *  
+  	 * <P> PRE: True
+  	 * <P> POST: All field values are set
+  	 * 
+	 * @param name - The Customer's name 
+	 * @param mobileNumber - The customer mobile number
+	 * @param locationX - The customer x location relative to the Pizza Palace Restaurant measured in units of 'blocks' 
+	 * @param locationY - The customer y location relative to the Pizza Palace Restaurant measured in units of 'blocks' 
+	 * @param type - A human understandable description of this Customer type
+	 * @throws CustomerException if supplied parameters are invalid 
+	 * 
+	 */
+	public Customer(String name, String mobileNumber, int locationX, int locationY, String type) throws CustomerException{
+		// TO DO
+		// HELLO DOUGLAS!!!!
+	}
+	
+	/**
+	 * Returns the Customer's name.
+	 * @return The Customer's name.
+	 */
+	public final String getName(){
+		// TO DO
+		//George
+	}
+	
+	/**
+	 * Returns the Customer's mobile number.
+	 * @return The Customer's mobile number.
+	 */
+	public final String getMobileNumber(){
+		// TO DO
+	}
+>>>>>>> origin/master
 
     /**
      * Returns the Customer's mobile number.
