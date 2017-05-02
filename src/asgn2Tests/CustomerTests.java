@@ -1,5 +1,6 @@
 package asgn2Tests;
 
+import asgn2Customers.Customer;
 
 /**
  * A class that tests the that tests the asgn2Customers.PickUpCustomer, asgn2Customers.DriverDeliveryCustomer,
@@ -12,4 +13,10 @@ package asgn2Tests;
  */
 public class CustomerTests {
 	// TO DO
+	Customer test1;
+	
+	@Before
+	public void customerInstanciation() {
+		test1 = new Customer();
+	}
 }
