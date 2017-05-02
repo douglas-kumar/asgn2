@@ -31,3 +31,104 @@ Author: awoodley <a.woodley@qut.edu.au>
 Date:   Tue Apr 25 06:32:36 2017 +0000
 
     .
+commit 284baa44d506402095cfe59ec9e0e70e7023cec6
+Author: Douglas <douglaskumar11@gmail.com>
+Date:   Tue May 2 14:32:25 2017 +1000
+
+    Added - Douglas's work
+    
+    Just so I can see which things I have to work on
+
+commit 54308f700630bcf2a1a7bc6a1a2eb4f3a8b24450
+Author: 15caloke <calum.oke@connect.qut.edu.au>
+Date:   Tue May 2 14:22:32 2017 +1000
+
+    Customer Change
+    
+    Deleted getMobile() duplicate
+
+commit 37b7383afdc2eee0577f5fc0f35422061420809d
+Author: 15caloke <calum.oke@connect.qut.edu.au>
+Date:   Tue May 2 14:20:50 2017 +1000
+
+    Added tests to Customer
+
+commit 62052bb44529b8d26b147b914559b2687dc7e344
+Author: Douglas <douglaskumar11@gmail.com>
+Date:   Tue May 2 14:19:21 2017 +1000
+
+    Test - fixed duplicate classes
+
+commit 04f09ec41d299d0d89ba7b6f16d77ade4110f4f1
+Author: Douglas <douglaskumar11@gmail.com>
+Date:   Tue May 2 14:15:22 2017 +1000
+
+    Test - we both added a comment
+
+commit e91d6c32aa34455ff45974693f79be9db84c4128
+Merge: 562d6d8 02d5f6c
+Author: Douglas <douglaskumar11@gmail.com>
+Date:   Tue May 2 14:13:16 2017 +1000
+
+    Merge remote-tracking branch 'origin/master'
+    
+    # Conflicts:
+    #       src/asgn2Customers/Customer.java
+
+commit 02d5f6cd90debcf113013ac6ad5a2aadde802c38
+Author: 15caloke <calum.oke@connect.qut.edu.au>
+Date:   Tue May 2 14:09:41 2017 +1000
+
+    Test 2 - comment
+    
+    added comment again when both working on same file
+
+commit 562d6d88ebefdd275f75e8f39b4cde121baaf24d
+Author: Douglas <douglaskumar11@gmail.com>
+Date:   Tue May 2 14:09:23 2017 +1000
+
+    Test - another comment
+
+commit 63b86d63ccca201abd5755e438a64707bf091f58
+Author: 15caloke <calum.oke@connect.qut.edu.au>
+Date:   Tue May 2 14:06:24 2017 +1000
+
+    Testing - Comment
+    
+    Added comment to test
+
+commit de4536eb3110e1067ee18fc5fd0cc495b620dce2
+Author: Douglas <douglaskumar11@gmail.com>
+Date:   Tue May 2 12:49:09 2017 +1000
+
+    Initial log file
+
+commit 1cbdf3c3c9a69b46359317e52f4ad7c533b3a766
+Author: Douglas <douglaskumar11@gmail.com>
+Date:   Tue May 2 12:29:29 2017 +1000
+
+    Initial
+
+commit 434d3ada012f0e03d37b9527d8f9bdff01ca572b
+Author: alan <awoodley@qut.edu.au>
+Date:   Tue Apr 25 18:36:28 2017 +1000
+
+    .
+
+commit f748592b2f1fe58edc493dfacce042ef85c91244
+Author: alan <awoodley@qut.edu.au>
+Date:   Tue Apr 25 18:05:34 2017 +1000
+
+    .
+
+commit dfba34718a2fd75e1bc3721b8770c7466003ab56
+Author: alan <awoodley@qut.edu.au>
+Date:   Tue Apr 25 18:04:54 2017 +1000
+
+    .
+
+commit e951c1e8b6ea69b11df52b6f3f175173c920375e
+Author: awoodley <a.woodley@qut.edu.au>
+Date:   Tue Apr 25 06:32:36 2017 +0000
+
+    .
