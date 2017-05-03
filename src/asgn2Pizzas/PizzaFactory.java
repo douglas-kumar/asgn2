@@ -14,7 +14,8 @@ import asgn2Exceptions.PizzaException;
  */
 
 public class PizzaFactory {
-
+	private static final String MARGHERITA = "PZM", 
+			VEGETERIAN = "PZV", MEAT_LOVERS = "PZL";
 
 	/**
 	 * A method that uses the Factory Method pattern to produce an instance of one of the asgn2Pizzas.Pizza subclasses. 
@@ -28,8 +29,16 @@ public class PizzaFactory {
 	 * @throws PizzaException if the pizzaCode is not one of the three valid codes listed in Section 5.3 of the Assignment Specification. 
 	 * @return A valid Pizza object using the specified parameters 
 	 * */
-	public static Pizza getPizza(String pizzaCode, int quantity, LocalTime orderTime, LocalTime deliveryTime) throws PizzaException{
-		// TO DO
+	public static Pizza getPizza(String pizzaCode, int quantity, LocalTime orderTime, LocalTime deliveryTime) throws PizzaException {
+		switch (pizzaCode) {
+		case MARGHERITA:
+			return new MargheritaPizza(quantity, orderTime, deliveryTime);
+		case VEGETERIAN:
+			return new VegetarianPizza(quantity, orderTime, deliveryTime);
+		case MEAT_LOVERS:
+			return new MeatLoversPizza(quantity, orderTime, deliveryTime);
+		default:
+			throw new PizzaException("Invalid pizza code");
+		}
 	}
-
 }
