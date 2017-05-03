@@ -18,12 +18,13 @@ import asgn2Exceptions.PizzaException;
  *
  */
 public abstract class Pizza  {
-	private static final int MARGHERITA_PRICE = 8, 
+	private static final double MARGHERITA_PRICE = 8, 
 			VEGETARIAN_PRICE = 10, MEAT_LOVERS_PRICE = 12;
 	private int quantity;
-	private double price;
+	private double price, costs;
 	private LocalTime orderTime, deliveryTime;
 	private String type;
+	private ArrayList<PizzaTopping> listOfToppings;
 	/**
 	 *  This class represents a pizza produced at the Pizza Palace restaurant.  A detailed description of the class's fields
 	 *  and parameters is provided in the Assignment Specification, in particular in Section 5.1. 
@@ -55,6 +56,7 @@ public abstract class Pizza  {
 		this.deliveryTime = deliveryTime;
 		this.type = type;
 		this.price = price;
+		listOfToppings = new ArrayList<PizzaTopping>();
 	}
 
 	/**
@@ -64,8 +66,32 @@ public abstract class Pizza  {
 	 * <P> POST: The cost field is set to sum of the Pizzas's toppings
 	 */
 	public final void calculateCostPerPizza() {
-		if (type.contentEquals("Margherita")) {
-			price = PizzaTopping.TOMATO + PizzaTopping.CHEESE;
+		switch (type) {
+		case "Margherita":
+			listOfToppings.add(PizzaTopping.TOMATO);
+			listOfToppings.add(PizzaTopping.CHEESE);
+			costs = PizzaTopping.TOMATO.getCost() + PizzaTopping.CHEESE.getCost();
+			break;
+		case "Vegetarian":
+			listOfToppings.add(PizzaTopping.TOMATO);
+			listOfToppings.add(PizzaTopping.CHEESE);
+			listOfToppings.add(PizzaTopping.EGGPLANT);
+			listOfToppings.add(PizzaTopping.MUSHROOM);
+			listOfToppings.add(PizzaTopping.CAPSICUM);
+			costs = PizzaTopping.TOMATO.getCost() + PizzaTopping.CHEESE.getCost()
+					+ PizzaTopping.EGGPLANT.getCost() + PizzaTopping.MUSHROOM.getCost()
+					+ PizzaTopping.CAPSICUM.getCost();
+			break;
+		default:
+			listOfToppings.add(PizzaTopping.TOMATO);
+			listOfToppings.add(PizzaTopping.CHEESE);
+			listOfToppings.add(PizzaTopping.BACON);
+			listOfToppings.add(PizzaTopping.PEPPERONI);
+			listOfToppings.add(PizzaTopping.SALAMI);
+			costs = PizzaTopping.TOMATO.getCost() + PizzaTopping.CHEESE.getCost()
+					+ PizzaTopping.BACON.getCost() + PizzaTopping.PEPPERONI.getCost()
+					+ PizzaTopping.SALAMI.getCost();
+			break;
 		}
 	}
 	
@@ -75,7 +101,7 @@ public abstract class Pizza  {
 	 */
 	public final double getCostPerPizza(){
 		this.calculateCostPerPizza();
-		return price;
+		return costs;
 	}
 
 	/**
@@ -83,16 +109,22 @@ public abstract class Pizza  {
 	 * @return The amount that an individual pizza is sold to the customer.
 	 */
 	public final double getPricePerPizza(){
-		
+		switch (type) {
+		case "Margherita":
+			return (price = MARGHERITA_PRICE);
+		case "Vegetarian":
+			return (price = VEGETARIAN_PRICE);
+		default:
+			return (price = MEAT_LOVERS_PRICE);
+		}
 	}
 
 	/**
 	 * Returns the amount that the entire order costs to make, taking into account the type and quantity of pizzas. 
 	 * @return The amount that the entire order costs to make, taking into account the type and quantity of pizzas. 
 	 */
-	public final double getOrderCost(){
-		// Might need to fix - Need to consider multiplying a double with an int
-		//return price * quantity;
+	public final double getOrderCost() {
+		return (costs * quantity);
 	}
 	
 	/**
@@ -100,7 +132,7 @@ public abstract class Pizza  {
 	 * @return The amount that the entire order is sold to the customer, taking into account the type and quantity of pizzas. 
 	 */
 	public final double getOrderPrice(){
-		// TO DO
+		return (price * quantity);
 	}
 	
 	
@@ -109,7 +141,7 @@ public abstract class Pizza  {
 	 * @return  Returns the profit made by the restaurant on the order which is the order price minus the order cost.
 	 */
 	public final double getOrderProfit(){
-		// TO DO
+		return (this.getOrderPrice() - this.getOrderCost());
 	}
 	
 
@@ -119,7 +151,12 @@ public abstract class Pizza  {
 	 * @return Returns  true if the instance of Pizza contains the specified topping and false otherwise.
 	 */
 	public final boolean containsTopping(PizzaTopping topping) {
-		//s
+		for (PizzaTopping toppingX : listOfToppings){
+			if (topping.equals(toppingX)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/**
