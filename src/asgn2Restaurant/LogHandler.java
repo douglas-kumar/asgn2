@@ -55,8 +55,7 @@ public class LogHandler {
         try {
             customerList = Files.readAllLines(file);
         } catch (IOException e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
+            throw new LogHandlerException("Could not read the file, check the file");
         }
 
         // TODO: Check file validity - throwing exceptions (see method comment)
@@ -111,12 +110,24 @@ public class LogHandler {
      */
     public static Customer createCustomer(String line) throws CustomerException, LogHandlerException {
         String[] data = line.split(",");
+        int locationX;
+        int locationY;
 
         // TODO: Check line validity - throwing exceptions (see method comment)
+        if (data.length != 9) {
+            throw new LogHandlerException("The line does not contain the correct number of fields");
+        }
+
+        try {
+            locationX = Integer.parseInt(data[5]);
+            locationY = Integer.parseInt(data[6]);
+        } catch (NumberFormatException e) {
+            throw new LogHandlerException(
+                    "Customer X,Y location values could not be parsed as integer, check string value in read file");
+        }
 
         Customer customer;
-        customer = CustomerFactory.getCustomer(data[4], data[2], data[3], Integer.parseInt(data[5]),
-                Integer.parseInt(data[6]));
+        customer = CustomerFactory.getCustomer(data[4], data[2], data[3], locationX, locationY);
         return customer;
     }
 
