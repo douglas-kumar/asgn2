@@ -54,8 +54,8 @@ public class DroneDeliveryCustomer extends Customer {
      */
     @Override
     public double getDeliveryDistance() {
-        double euclideanDistance = Math.sqrt((this.getLocationX() ^ 2) + (this.getLocationY() ^ 2));
-        return euclideanDistance;
+        double euclideanDistance = Math.sqrt((this.getLocationX()*this.getLocationX()) + (this.getLocationY()*this.getLocationY()));
+        return Math.round(euclideanDistance * 1000000000.0) / 1000000000.0;
     }
 
 }

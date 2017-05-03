@@ -19,9 +19,9 @@ import org.junit.Test;
  */
 public class CustomerTests {
 	private static final double DELTA = 1e-15;
-	private DriverDeliveryCustomer john, 
+	private DriverDeliveryCustomer john, mark, 
 			nonInstanciatedJohn, invalidJohn;
-	private DroneDeliveryCustomer jill, invalidJill;
+	private DroneDeliveryCustomer jill, mary, invalidJill;
 	private String expectedString, notSameString;
 	private int expectedResult;
 	private double expectedDistance;
@@ -29,11 +29,14 @@ public class CustomerTests {
 	@Before
 	public void customerInstanciation() throws CustomerException {
 		john = new DriverDeliveryCustomer("John", "0443514214", 4, 3);
-		jill = new DroneDeliveryCustomer("Jill", "0431431414", 4, 3);
+		mark = new DriverDeliveryCustomer("Mark", "0400123456", -6, -3);
+		jill = new DroneDeliveryCustomer("Jill", "0431431414", 5, 8);
+		mary = new DroneDeliveryCustomer("Mary", "0453920960", -9, 0);
 	}
 	
+	// ----------------------------------------------------
 	// ---------- DriverDeliveryCustomer Testing ----------
-	
+	// ----------------------------------------------------
 	@Test
 	public void instanciatedCustomerIsNotNull() {
 		assertNotNull(john);
@@ -51,7 +54,7 @@ public class CustomerTests {
 	}
 	
 	// Check to make sure it is okay to enter lower-case characters?
-	// name.substring(0).toUpperCase()?
+	// name.charAt(0).toUpperCase()?
 	@Test
 	public void getFirstNameIsCaseSensitive() {
 		notSameString = "john";
@@ -88,16 +91,65 @@ public class CustomerTests {
 		assertEquals(expectedDistance, john.getDeliveryDistance(), DELTA);
 	}
 	
-	// ------ Exception Testing for DriverDeliveryCustomer class -----
-	 	
-	/*
+	@Test
+	public void getDeliveryDistanceIsCorrectWithNegativeNums() {
+		expectedDistance = 9; // |0-(-6)| + |0-(-3)| = 9
+		assertEquals(expectedDistance, mark.getDeliveryDistance(), DELTA);
+	}
+	
+	// ------ Exception Testing for DriverDeliveryCustomer class -----	 	
+	
 	@Test(expected=CustomerException.class)
 	public void invalidInstanciation() throws CustomerException {
 		invalidJohn = new DriverDeliveryCustomer("", "", 0, 0);
 	}
-	*/
 	
+	@Test(expected=CustomerException.class)
+	public void invalidName() throws CustomerException {
+		invalidJohn = new DriverDeliveryCustomer("", "0443514314", 3, 5);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void invalidNumberTooShort() throws CustomerException {
+		invalidJohn = new DriverDeliveryCustomer("John", "04434314", 3, 5);
+	}
+	
+	// should be able to add +61 instead of 0???
+	@Test(expected=CustomerException.class)
+	public void invalidNumberDoesNotStartWithZero() throws CustomerException {
+		invalidJohn = new DriverDeliveryCustomer("", "443514314", 3, 5);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void xLocationTooHigh() throws CustomerException {
+		invalidJohn = new DriverDeliveryCustomer("John", "0443514314", 40, 5);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void yLocationTooHigh() throws CustomerException {
+		invalidJohn = new DriverDeliveryCustomer("John", "0443514314", 3, 35);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void xLocationTooHighWithNegativeNums() throws CustomerException {
+		invalidJohn = new DriverDeliveryCustomer("", "0443514314", -40, 5);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void yLocationTooHighWithNegativeNums() throws CustomerException {
+		invalidJohn = new DriverDeliveryCustomer("", "0443514314", 3, -35);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void NameIsLongerThanTwentyCharacters() throws CustomerException {
+		invalidJohn = new DriverDeliveryCustomer("JJJJoooooohhhhhnnnnnnnn", "0443514314", 3, 5);
+	}
+	
+	// Possibly add more tests...
+	
+	// ---------------------------------------------------
 	// ---------- DroneDeliveryCustomer Testing ----------
+	// ---------------------------------------------------
 	
 	@Test
 	public void checkDroneCustomerIsNotNull() {
@@ -120,5 +172,24 @@ public class CustomerTests {
 		expectedString = "0431431414";
 		assertEquals(expectedString, jill.getMobileNumber());
 	}
+	
+	@Test
+	public void getXLocationIsCorrectForDrone() {
+		expectedResult = 5;
+		assertEquals(expectedResult, jill.getLocationX());
+	}
+	
+	@Test
+	public void getYLocationIsCorrectForDrone() {
+		expectedResult = 8;
+		assertEquals(expectedResult, jill.getLocationY());
+	}
+	
+	@Test
+	public void getDeliveryDistanceIsCorrectForDrone() {
+		expectedDistance = 9.433981132; // sqrt( ((0-5)^2) + ((0-8)^2) ) = 9.433981132
+		assertEquals(expectedDistance, jill.getDeliveryDistance(), DELTA);
+	}
+	
 	
 }
