@@ -1,8 +1,14 @@
 package asgn2Restaurant;
 
+import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.List;
 
 import asgn2Customers.Customer;
+import asgn2Customers.CustomerFactory;
 import asgn2Exceptions.CustomerException;
 import asgn2Exceptions.LogHandlerException;
 import asgn2Exceptions.PizzaException;
@@ -39,9 +45,29 @@ public class LogHandler {
      */
     public static ArrayList<Customer> populateCustomerDataset(String filename)
             throws CustomerException, LogHandlerException {
-        ArrayList<Customer> customers;
 
-        return null;
+        ArrayList<Customer> customers = new ArrayList<Customer>();
+
+        // Read in the specified file
+        Path file = FileSystems.getDefault().getPath("logs", filename);
+        List<String> customerList = null;
+
+        try {
+            customerList = Files.readAllLines(file);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+
+        // TODO: Check file validity - throwing exceptions (see method comment)
+
+        for (String customer : customerList) {
+            Customer next;
+            next = createCustomer(customer);
+            customers.add(next);
+        }
+
+        return customers;
     }
 
     /**
@@ -84,7 +110,14 @@ public class LogHandler {
      *             - If there was a problem parsing the line from the log file.
      */
     public static Customer createCustomer(String line) throws CustomerException, LogHandlerException {
-        // TO DO
+        String[] data = line.split(",");
+
+        // TODO: Check line validity - throwing exceptions (see method comment)
+
+        Customer customer;
+        customer = CustomerFactory.getCustomer(data[4], data[2], data[3], Integer.parseInt(data[5]),
+                Integer.parseInt(data[6]));
+        return customer;
     }
 
     /**

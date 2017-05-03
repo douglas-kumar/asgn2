@@ -92,6 +92,9 @@ public class PizzaRestaurant {
      *             if index is invalid.
      */
     public Customer getCustomerByIndex(int index) throws CustomerException {
+        if ((index >= this.customers.size()) || (index < 0)) {
+            throw new CustomerException("Index provided is not valid");
+        }
         return this.customers.get(index);
     }
 

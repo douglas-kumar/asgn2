@@ -14,6 +14,10 @@ import asgn2Exceptions.CustomerException;
 
 public class CustomerFactory {
 
+    private static final String PICKUP_CUSTOMER = "PUC";
+    private static final String DRIVER_DELIVERY = "DVC";
+    private static final String DRONE_DELIVERY = "DNC";
+
     /**
      * A method that uses the Factory Method pattern to produce an instance of
      * one of the asgn2Customers.Customer subclasses. Subclasses are created
@@ -44,11 +48,11 @@ public class CustomerFactory {
     public static Customer getCustomer(String customerCode, String name, String mobileNumber, int locationX,
             int locationY) throws CustomerException {
         switch (customerCode) {
-        case ("PUC"):
+        case (PICKUP_CUSTOMER):
             return new PickUpCustomer(name, mobileNumber, locationX, locationY);
-        case ("DVC"):
+        case (DRIVER_DELIVERY):
             return new DriverDeliveryCustomer(name, mobileNumber, locationX, locationY);
-        case ("DNC"):
+        case (DRONE_DELIVERY):
             return new DroneDeliveryCustomer(name, mobileNumber, locationX, locationY);
         default:
             throw new CustomerException("Customer code is not valid");
