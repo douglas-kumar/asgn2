@@ -50,6 +50,20 @@ public abstract class Customer {
      */
     public Customer(String name, String mobileNumber, int locationX, int locationY, String type)
             throws CustomerException {
+        if ((name.trim().isEmpty()) || (name.length() > 20)) {
+            throw new CustomerException("Customer's name must be between 1 and 20 characters");
+        }
+        if ((mobileNumber.length() != 10) || (mobileNumber.charAt(0) != '0')) {
+            throw new CustomerException("Customer's mobile number must be ten digits long");
+        }
+        if ((type.equals("PUC")) && ((locationX != 0) || (locationY != 0))) {
+            throw new CustomerException("A 'pick-up' customer must have location 0,0");
+        }
+        if ((Math.abs(locationX) > 10) || (Math.abs(locationY) > 10)) {
+            throw new CustomerException(
+                    "Cannot deliver to a customer who lives more than 10 blocks away in any bearing");
+        }
+
         this.name = name;
         this.mobileNumber = mobileNumber;
         this.locationX = locationX;
