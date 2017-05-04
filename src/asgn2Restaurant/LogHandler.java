@@ -27,7 +27,8 @@ import asgn2Pizzas.PizzaFactory;
  *
  */
 public class LogHandler {
-	private static final int LOG_FILE_LENGTH = 9;
+    private static final int ITEMS_PER_LINE = 9;
+
     /**
      * Returns an ArrayList of Customer objects from the information contained
      * in the log file ordered as they appear in the log file.
@@ -58,7 +59,7 @@ public class LogHandler {
         try {
             customerList = Files.readAllLines(file);
         } catch (IOException e) {
-            throw new LogHandlerException("Could not read the file, check the file");
+            throw new LogHandlerException("Could not read the file " + filename + ", check the file");
         }
 
         // TODO: Check file validity - throwing exceptions (see method comment)
@@ -90,30 +91,28 @@ public class LogHandler {
      *             semantic errors above
      * 
      */
-    public static ArrayList<Pizza> populatePizzaDataset(String filename) 
-    		throws PizzaException, LogHandlerException {
-    	
-    	//PizzaFactory pizzaFactory = new PizzaFactory();
-    	ArrayList<Pizza> listOfPizzas = new ArrayList<Pizza>();
-    	
-    	 Path file = FileSystems.getDefault().getPath("logs", filename);
-         List<String> pizzaList = null;
-         
-         try {
-        	 pizzaList = Files.readAllLines(file);
-         } catch (IOException e) {
-        	throw new LogHandlerException("Cannot read: " 
-        			  + filename + " Please check it is in the right directory"); 
-         }
-         
-        for (String pizza : pizzaList) {
-        	Pizza nextPizza;
-        	nextPizza = createPizza(pizza);
-        	listOfPizzas.add(nextPizza);
+    public static ArrayList<Pizza> populatePizzaDataset(String filename) throws PizzaException, LogHandlerException {
+
+        // PizzaFactory pizzaFactory = new PizzaFactory();
+        ArrayList<Pizza> listOfPizzas = new ArrayList<Pizza>();
+
+        Path file = FileSystems.getDefault().getPath("logs", filename);
+        List<String> pizzaList = null;
+
+        try {
+            pizzaList = Files.readAllLines(file);
+        } catch (IOException e) {
+            throw new LogHandlerException("Cannot read: " + filename + " Please check it is in the right directory");
         }
-        
+
+        for (String pizza : pizzaList) {
+            Pizza nextPizza;
+            nextPizza = createPizza(pizza);
+            listOfPizzas.add(nextPizza);
+        }
+
         return listOfPizzas;
-        
+
     }
 
     /**
@@ -135,11 +134,14 @@ public class LogHandler {
      */
     public static Customer createCustomer(String line) throws CustomerException, LogHandlerException {
         String[] data = line.split(",");
+        String customerCode;
+        String name;
+        String mobileNumber;
         int locationX;
         int locationY;
 
         // TODO: Check line validity - throwing exceptions (see method comment)
-        if (data.length != 9) {
+        if (data.length != ITEMS_PER_LINE) {
             throw new LogHandlerException("The line does not contain the correct number of fields");
         }
 
@@ -151,8 +153,12 @@ public class LogHandler {
                     "Customer X,Y location values could not be parsed as integer, check string value in read file");
         }
 
+        customerCode = data[4];
+        name = data[2];
+        mobileNumber = data[3];
+
         Customer customer;
-        customer = CustomerFactory.getCustomer(data[4], data[2], data[3], locationX, locationY);
+        customer = CustomerFactory.getCustomer(customerCode, name, mobileNumber, locationX, locationY);
         return customer;
     }
 
@@ -179,15 +185,15 @@ public class LogHandler {
         int quantity;
         LocalTime orderTime, deliveryTime;
         Pizza pizza;
-        
-        if (data.length != LOG_FILE_LENGTH)
-        	throw new LogHandlerException("log file does not contain correct amount of data or valid data");
-        
+
+        if (data.length != ITEMS_PER_LINE)
+            throw new LogHandlerException("log file does not contain correct amount of data or valid data");
+
         quantity = Integer.parseInt(data[8]);
         pizzaCode = data[7];
         orderTime = LocalTime.parse(data[0], DateTimeFormatter.ISO_TIME);
         deliveryTime = LocalTime.parse(data[1], DateTimeFormatter.ISO_TIME);
-        
+
         pizza = PizzaFactory.getPizza(pizzaCode, quantity, orderTime, deliveryTime);
         return pizza;
     }

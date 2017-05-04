@@ -77,7 +77,15 @@ public class PizzaRestaurant {
      *
      */
     public boolean processLog(String filename) throws CustomerException, PizzaException, LogHandlerException {
-        // TO DO
+        boolean success = false;
+        try {
+            this.customers = LogHandler.populateCustomerDataset(filename);
+            this.pizzas = LogHandler.populatePizzaDataset(filename);
+        } finally {
+            success = true;
+        }
+
+        return success;
     }
 
     /**
@@ -110,8 +118,8 @@ public class PizzaRestaurant {
      */
     public Pizza getPizzaByIndex(int index) throws PizzaException {
         if (index >= pizzas.size() || index < 0)
-        	throw new PizzaException ("Index is not in range of list");
-        
+            throw new PizzaException("Index is not in range of list");
+
         return pizzas.get(index);
     }
 
@@ -157,11 +165,11 @@ public class PizzaRestaurant {
      */
     public double getTotalProfit() {
         double totalProfit = 0;
-        
-        for (Pizza pizza : pizzas){
-        	totalProfit += pizza.getOrderProfit();
+
+        for (Pizza pizza : pizzas) {
+            totalProfit += pizza.getOrderProfit();
         }
-        
+
         return totalProfit;
     }
 
