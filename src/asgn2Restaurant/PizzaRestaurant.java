@@ -109,7 +109,10 @@ public class PizzaRestaurant {
      *             if index is invalid.
      */
     public Pizza getPizzaByIndex(int index) throws PizzaException {
-        // TO DO
+        if (index >= pizzas.size() || index < 0)
+        	throw new PizzaException ("Index is not in range of list");
+        
+        return pizzas.get(index);
     }
 
     /**
@@ -119,7 +122,7 @@ public class PizzaRestaurant {
      * @return the number of objects contained in the pizzas field.
      */
     public int getNumPizzaOrders() {
-        // TO DO
+        return pizzas.size();
     }
 
     /**
@@ -153,7 +156,13 @@ public class PizzaRestaurant {
      *         field.
      */
     public double getTotalProfit() {
-        // TO DO
+        double totalProfit = 0;
+        
+        for (Pizza pizza : pizzas){
+        	totalProfit += pizza.getOrderProfit();
+        }
+        
+        return totalProfit;
     }
 
     /**

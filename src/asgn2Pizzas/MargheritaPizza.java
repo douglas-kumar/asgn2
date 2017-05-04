@@ -16,7 +16,8 @@ import asgn2Exceptions.PizzaException;
  *
  */
 public class MargheritaPizza extends Pizza {
-
+	private final static double MARGHERITA_PRICE = 8; 
+	private final static String MARGHERITA = "Margherita";
 	
 	/**
 	 * 
@@ -35,7 +36,7 @@ public class MargheritaPizza extends Pizza {
 	 *
 	 */
 	public MargheritaPizza(int quantity, LocalTime orderTime, LocalTime deliveryTime) throws PizzaException {
-		// TO DO
+		super(quantity, orderTime, deliveryTime, MARGHERITA, MARGHERITA_PRICE);
 	}
 
 }
