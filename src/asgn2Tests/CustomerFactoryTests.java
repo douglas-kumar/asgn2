@@ -19,7 +19,7 @@ public class CustomerFactoryTests {
 	
 	@Before
 	public void InstanciateCustomerFactory() throws CustomerException {
-		john = new Customer("01", "John", "0443204514", 24, 15);
+		//john = new Customer("01", "John", "0443204514", 24, 15);
 	}
 	
 	

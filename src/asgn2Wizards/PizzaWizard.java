@@ -1,6 +1,7 @@
 package asgn2Wizards;
 
 
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import asgn2GUIs.PizzaGUI;
@@ -27,7 +28,8 @@ public class PizzaWizard {
 	 */
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new PizzaGUI("Pizza Place"));		
-		
+		JFrame.setDefaultLookAndFeelDecorated(false);
+
 	}
 
 }
