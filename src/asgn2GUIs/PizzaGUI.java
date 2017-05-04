@@ -7,14 +7,11 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.text.DecimalFormat;
 
-import javax.swing.JPanel;
 import javax.swing.text.DefaultCaret;
 
 import asgn2Customers.Customer;
 import asgn2Pizzas.Pizza;
 import asgn2Restaurant.PizzaRestaurant;
-
-import javax.swing.JFrame;
 
 import java.awt.*;
 import javax.swing.*;
@@ -33,16 +30,18 @@ import javax.swing.*;
  *
  */
 public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionListener {
+	private static final long serialVersionUID = -7031008862559936404L;
+	public static final int WIDTH = 300;
+	public static final int HEIGHT = 200;
 	
-	
-	private PizzaRestaurant restaurant;
+	private JButton btnLoad;
 	
 	/**
 	 * Creates a new Pizza GUI with the specified title 
 	 * @param title - The title for the supertype JFrame
 	 */
 	public PizzaGUI(String title) {
-		// TO DO
+		super(title);
 	}
 
 	
@@ -51,6 +50,18 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 		// TO DO
 	}
 
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private JButton createButton(String text) {
+		JButton btn = new JButton(text); 
+		btn.addActionListener(this);
+		return btn; 
+	}
 	
 
 }
