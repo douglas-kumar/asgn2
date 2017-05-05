@@ -62,8 +62,6 @@ public class LogHandler {
             throw new LogHandlerException("Could not read the file " + filename + ", check the file");
         }
 
-        // TODO: Check file validity - throwing exceptions (see method comment)
-
         for (String customer : customerList) {
             Customer next;
             next = createCustomer(customer);
@@ -140,7 +138,6 @@ public class LogHandler {
         int locationX;
         int locationY;
 
-        // TODO: Check line validity - throwing exceptions (see method comment)
         if (data.length != ITEMS_PER_LINE) {
             throw new LogHandlerException("The line does not contain the correct number of fields");
         }
