@@ -20,6 +20,8 @@ import asgn2Restaurant.LogHandler;
  */
 public class LogHandlerPizzaTests {
     ArrayList<Pizza> pizzas;
+    Pizza pizza1;
+    Pizza pizza2;
 
     @Test
     public void readFromLog1() throws PizzaException, LogHandlerException {
@@ -52,5 +54,11 @@ public class LogHandlerPizzaTests {
         assertEquals(4, pizzas.get(49).getQuantity());
         assertEquals("Vegetarian", pizzas.get(74).getPizzaType());
         assertEquals(5, pizzas.get(74).getQuantity());
+    }
+
+    @Test
+    public void makeAPizza() throws PizzaException, LogHandlerException {
+        pizza1 = LogHandler.createPizza("19:10:00,19:40:00,Joe Dolce,0428654767,DVC,3,6,PZV,3");
+        assertEquals("Vegetarian", pizza1.getPizzaType());
     }
 }
