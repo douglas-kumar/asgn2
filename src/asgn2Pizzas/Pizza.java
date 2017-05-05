@@ -48,8 +48,8 @@ public abstract class Pizza  {
 		if (orderTime.isBefore(LocalTime.of(19, 00))) throw new PizzaException("Cannot order before 7:00pm");
 		if (orderTime.isAfter(LocalTime.of(23, 00)))throw new PizzaException("Cannot order after 11:00pm");
 		if (deliveryTime.isBefore(LocalTime.of(19, 00))) throw new PizzaException("Cannot deliver order before 7:00pm");
-		if (!type.contentEquals("Margherita") || !type.contentEquals("Vegetarian") || !type.contentEquals("Meat Lovers"))
-			throw new PizzaException("Invalid Pizza type");
+		//if (!type.contentEquals("Margherita") || !type.contentEquals("Vegetarian") || !type.contentEquals("Meat Lovers"))
+			//throw new PizzaException("Invalid Pizza type");
 		
 		this.quantity = quantity;
 		this.orderTime = orderTime;

@@ -43,6 +43,7 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 	private JTextArea areDisplay; 
 	private JFileChooser fc;
 	private StringBuffer sb;
+	private String quickDir = "C:\\Users\\calum\\Documents\\GitHub\\asgn2\\logs";
 	
 	/**
 	 * Creates a new Pizza GUI with the specified title 
@@ -138,10 +139,8 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 	public void actionPerformed(ActionEvent e) {
 		int returnVal;
 		File file;
-		fc = new JFileChooser();
-		sb = new StringBuffer();
+		fc = new JFileChooser(quickDir);
 		
-		// TODO Auto-generated method stub
 		//Get event source 
 		Object src = e.getSource(); 		      
 		//Consider the alternatives - not all active at once. 
@@ -150,11 +149,21 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 			returnVal = fc.showOpenDialog(PizzaGUI.this);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				file = fc.getSelectedFile();
-				sb.append("Opening: " + file.getName() + "\n");
-				areDisplay.setText(sb.toString());
+				try {
+					pizzaRestaurant.processLog(file.getName());
+					areDisplay.setText(file.toString());
+				} catch (CustomerException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (PizzaException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (LogHandlerException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			} else {
-				sb.append("Open command cancelled by user." + "\n");
-				areDisplay.setText(sb.toString());
+				areDisplay.setText("Did not open file");
 			}
 		}
 	}
