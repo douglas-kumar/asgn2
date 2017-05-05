@@ -1,6 +1,7 @@
 package asgn2Tests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
@@ -56,9 +57,22 @@ public class LogHandlerPizzaTests {
         assertEquals(5, pizzas.get(74).getQuantity());
     }
 
+    @Test(expected = LogHandlerException.class)
+    public void makePizzaWithBadDataLine() throws PizzaException, LogHandlerException {
+        pizza1 = LogHandler.createPizza("19:10:00,19:40:00,Joe Dolce,DVC,3,6,PZV,3");
+    }
+
     @Test
     public void makeAPizza() throws PizzaException, LogHandlerException {
         pizza1 = LogHandler.createPizza("19:10:00,19:40:00,Joe Dolce,0428654767,DVC,3,6,PZV,3");
         assertEquals("Vegetarian", pizza1.getPizzaType());
+        assertEquals(3, pizza1.getQuantity());
+    }
+
+    @Test
+    public void compareEqualPizzas() throws PizzaException, LogHandlerException {
+        pizza1 = LogHandler.createPizza("20:05:00,20:30:00,Ryan King,0484323901,DNC,2,1,PZL,7");
+        pizza2 = LogHandler.createPizza("20:05:00,20:30:00,Ryan King,0484323901,DNC,2,1,PZL,7");
+        assertTrue(pizza1.equals(pizza2));
     }
 }
