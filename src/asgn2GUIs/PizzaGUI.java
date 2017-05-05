@@ -38,7 +38,7 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 	private static final long serialVersionUID = -7031008862559936404L;
 	public static final int WIDTH = 400, HEIGHT = 400;
 	private PizzaRestaurant pr;
-	private JButton btnLoad;
+	private JButton btnLoad, btnDisplayInfo, btnCalc, btnReset;
 	private JPanel pnlDisplay, pnlTop, 
 		pnlBottom, pnlRight, pnlLeft;
 	private JTextArea dataDisplay;
@@ -60,12 +60,21 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 	    setLayout(new BorderLayout());
 	    
 	    btnLoad = createButton("Load File");
+	    btnDisplayInfo = createButton("Display Info");
+	    btnCalc = createButton("Perform Calculations");
+	    btnReset = createButton("Reset");
+	    btnDisplayInfo.setEnabled(false);
+	    btnCalc.setEnabled(false);
+	    btnReset.setEnabled(false);
+	    
 	    pnlDisplay = createPanel(Color.WHITE);
 	    pnlTop = createPanel(Color.LIGHT_GRAY);
 	    pnlBottom = createPanel(Color.LIGHT_GRAY);
 	    pnlRight = createPanel(Color.LIGHT_GRAY);
 	    pnlLeft = createPanel(Color.LIGHT_GRAY);
+	    
 	    dataDisplay = createTextArea();
+	    
 	    pnlDisplay.setLayout(new BorderLayout());
 	    pnlDisplay.add(dataDisplay, BorderLayout.CENTER);
 	    
@@ -118,6 +127,9 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 	    constraints.weighty = 100;
 	    
 	    addToPanel(pnlBottom, btnLoad,constraints,0,0,2,1);
+	    addToPanel(pnlBottom, btnDisplayInfo,constraints,6,0,2,1);
+	    addToPanel(pnlBottom, btnCalc,constraints,0,6,2,1);
+	    addToPanel(pnlBottom, btnReset,constraints,6,6,2,1);
 	}
 	
 	private void addToPanel(JPanel jp,Component c, GridBagConstraints constraints, int x, int y, int w, int h) {  
@@ -132,8 +144,8 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 	public void run() {
 		createGUI();
 	}
-
-	// need to load log files properly, just a dummy load
+	
+	// Still implementing - not finished
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		int returnVal;
@@ -144,12 +156,13 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 		Object src = e.getSource(); 		      
 		//Consider the alternatives - not all active at once. 
 		if (src == btnLoad) {
-			JButton btn = ((JButton) src);
 			returnVal = fc.showOpenDialog(PizzaGUI.this);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				btnDisplayInfo.setEnabled(true);
 				logFile = fc.getSelectedFile();
 				try {
 					pr.processLog(logFile.getName());
+					if (src == btnDisplayInfo) {
 					dataDisplay.setText("\tLog File: " + logFile.getName()
 							+ "\n\n" + "Customer" 
 							+ "\n\n" + "Customer Name: "
@@ -164,6 +177,7 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 							+ "\n" + "Order Cost: "
 							+ "\n" + "Order Profit: "
 							);
+					}
 				} catch (CustomerException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -175,7 +189,7 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 					e1.printStackTrace();
 				}
 			} 
-		}
+		} // end src == btnLoad
 	}
 }
 
