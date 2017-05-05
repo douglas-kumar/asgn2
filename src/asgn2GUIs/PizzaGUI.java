@@ -34,15 +34,15 @@ import javax.swing.*;
  *
  */
 public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionListener {
+	private static final int FONT_SIZE = 12;
 	private static final long serialVersionUID = -7031008862559936404L;
-	public static final int WIDTH = 300, HEIGHT = 200;
-	private PizzaRestaurant pizzaRestaurant;
+	public static final int WIDTH = 400, HEIGHT = 400;
+	private PizzaRestaurant pr;
 	private JButton btnLoad;
 	private JPanel pnlDisplay, pnlTop, 
 		pnlBottom, pnlRight, pnlLeft;
-	private JTextArea areDisplay; 
+	private JTextArea dataDisplay;
 	private JFileChooser fc;
-	private StringBuffer sb;
 	private String quickDir = "C:\\Users\\calum\\Documents\\GitHub\\asgn2\\logs";
 	
 	/**
@@ -51,7 +51,7 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 	 */
 	public PizzaGUI(String title) throws HeadlessException {
 		super(title);
-		pizzaRestaurant = new PizzaRestaurant();
+		pr = new PizzaRestaurant();
 	}
 	
 	private void createGUI() {
@@ -65,10 +65,9 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 	    pnlBottom = createPanel(Color.LIGHT_GRAY);
 	    pnlRight = createPanel(Color.LIGHT_GRAY);
 	    pnlLeft = createPanel(Color.LIGHT_GRAY);
-	    areDisplay = createTextArea();
-
+	    dataDisplay = createTextArea();
 	    pnlDisplay.setLayout(new BorderLayout());
-	    pnlDisplay.add(areDisplay, BorderLayout.CENTER);
+	    pnlDisplay.add(dataDisplay, BorderLayout.CENTER);
 	    
 	    this.getContentPane().add(pnlDisplay,BorderLayout.CENTER);
 	    this.getContentPane().add(pnlTop,BorderLayout.NORTH);
@@ -100,7 +99,7 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 		JTextArea txtArea = new JTextArea(); 
 		txtArea.setEditable(false);
 		txtArea.setLineWrap(true);
-		txtArea.setFont(new Font("Arial",Font.BOLD,24));
+		txtArea.setFont(new Font("Arial",Font.BOLD,FONT_SIZE));
 		txtArea.setBorder(BorderFactory.createEtchedBorder());
 		return txtArea;
 	}
@@ -138,7 +137,7 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		int returnVal;
-		File file;
+		File logFile;
 		fc = new JFileChooser(quickDir);
 		
 		//Get event source 
@@ -148,10 +147,23 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 			JButton btn = ((JButton) src);
 			returnVal = fc.showOpenDialog(PizzaGUI.this);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
-				file = fc.getSelectedFile();
+				logFile = fc.getSelectedFile();
 				try {
-					pizzaRestaurant.processLog(file.getName());
-					areDisplay.setText(file.toString());
+					pr.processLog(logFile.getName());
+					dataDisplay.setText("\tLog File: " + logFile.getName()
+							+ "\n\n" + "Customer" 
+							+ "\n\n" + "Customer Name: "
+							+ "\n" + "Mobile Number: " 
+							+ "\n" + "Customer Type: "
+							+ "\n" + "X and Y Location: "
+							+ "\n" + "Distance From Restaurant: "
+							+ "\n\n" + "Pizza"
+							+ "\n\n" + "Pizza Type: "
+							+ "\n" + "Quantity: "
+							+ "\n" + "Order Price: "
+							+ "\n" + "Order Cost: "
+							+ "\n" + "Order Profit: "
+							);
 				} catch (CustomerException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -162,10 +174,9 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-			} else {
-				areDisplay.setText("Did not open file");
-			}
+			} 
 		}
 	}
-
 }
+
+
