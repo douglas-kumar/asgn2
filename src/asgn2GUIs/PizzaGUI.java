@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.text.DecimalFormat;
+import java.util.*;
 
 import javax.swing.text.DefaultCaret;
 
@@ -41,9 +42,38 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 	private JButton btnLoad, btnDisplayInfo, btnCalc, btnReset;
 	private JPanel pnlDisplay, pnlTop, 
 		pnlBottom, pnlRight, pnlLeft;
-	private JTextArea dataDisplay;
+	private JTextArea tempData;
+	private JTable dataDisplay;
+	private JScrollPane scroller;
 	private JFileChooser fc;
 	private String quickDir = "C:\\Users\\calum\\Documents\\GitHub\\asgn2\\logs";
+	
+	// table columns
+	private String[] columnNamesCustomer = {"Name", "Number", "Type", "X-Location", "Y-Location", "Distance"};
+	private String[] columnNamesOrder = {"Type", "Quantity", "Order Price", "Order Cost", "Order Profit"};
+	
+	String[][] sampleData = {
+			{"Bob", "040404040", "Drone", "6", "-5", "6"},
+			{"George", "030302303", "Pick Up", "4", "4", "0"},
+			{"Bob", "040404040", "Drone", "6", "-5", "6"},
+			{"George", "030302303", "Pick Up", "4", "4", "0"},
+			{"Bob", "040404040", "Drone", "6", "-5", "6"},
+			{"George", "030302303", "Pick Up", "4", "4", "0"},
+			{"Bob", "040404040", "Drone", "6", "-5", "6"},
+			{"George", "030302303", "Pick Up", "4", "4", "0"},
+			{"Bob", "040404040", "Drone", "6", "-5", "6"},
+			{"George", "030302303", "Pick Up", "4", "4", "0"},
+			{"Bob", "040404040", "Drone", "6", "-5", "6"},
+			{"George", "030302303", "Pick Up", "4", "4", "0"},
+			{"Bob", "040404040", "Drone", "6", "-5", "6"},
+			{"George", "030302303", "Pick Up", "4", "4", "0"},
+			{"Bob", "040404040", "Drone", "6", "-5", "6"},
+			{"George", "030302303", "Pick Up", "4", "4", "0"},
+			{"Bob", "040404040", "Drone", "6", "-5", "6"},
+			{"George", "030302303", "Pick Up", "4", "4", "0"},
+			{"Bob", "040404040", "Drone", "6", "-5", "6"},
+			{"George", "030302303", "Pick Up", "4", "4", "0"}
+	};
 	
 	/**
 	 * Creates a new Pizza GUI with the specified title 
@@ -73,16 +103,24 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 	    pnlRight = createPanel(Color.LIGHT_GRAY);
 	    pnlLeft = createPanel(Color.LIGHT_GRAY);
 	    
-	    dataDisplay = createTextArea();
+	    tempData = createTextArea();
 	    
 	    pnlDisplay.setLayout(new BorderLayout());
-	    pnlDisplay.add(dataDisplay, BorderLayout.CENTER);
+	    pnlDisplay.add(tempData, BorderLayout.CENTER);
 	    
 	    this.getContentPane().add(pnlDisplay,BorderLayout.CENTER);
 	    this.getContentPane().add(pnlTop,BorderLayout.NORTH);
 	    this.getContentPane().add(pnlBottom,BorderLayout.SOUTH);
 	    this.getContentPane().add(pnlRight,BorderLayout.EAST);
 	    this.getContentPane().add(pnlLeft,BorderLayout.WEST);
+	    
+//	    dataDisplay = new JTable(sampleData, columnNamesCustomer);
+//	    dataDisplay.setPreferredScrollableViewportSize(new Dimension(500,50));
+//	    dataDisplay.setFillsViewportHeight(true);
+//	    scroller = new JScrollPane(dataDisplay);
+//	    add(scroller);
+//	    dataDisplay.setVisible(false);
+//	    scroller.setVisible(false);
 	    
 	    layoutButtonPanel();
 	    
@@ -159,25 +197,22 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 			returnVal = fc.showOpenDialog(PizzaGUI.this);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				btnDisplayInfo.setEnabled(true);
+				btnCalc.setEnabled(true);
+				btnReset.setEnabled(true);
+				btnLoad.setEnabled(false);
 				logFile = fc.getSelectedFile();
 				try {
 					pr.processLog(logFile.getName());
-					if (src == btnDisplayInfo) {
-					dataDisplay.setText("\tLog File: " + logFile.getName()
-							+ "\n\n" + "Customer" 
-							+ "\n\n" + "Customer Name: "
-							+ "\n" + "Mobile Number: " 
-							+ "\n" + "Customer Type: "
-							+ "\n" + "X and Y Location: "
-							+ "\n" + "Distance From Restaurant: "
-							+ "\n\n" + "Pizza"
-							+ "\n\n" + "Pizza Type: "
-							+ "\n" + "Quantity: "
-							+ "\n" + "Order Price: "
-							+ "\n" + "Order Cost: "
-							+ "\n" + "Order Profit: "
-							);
-					}
+/*					if (src == btnDisplayInfo) {
+					pnlDisplay.setVisible(false);
+					dataDisplay = new JTable(sampleData, columnNamesCustomer);
+				    dataDisplay.setPreferredScrollableViewportSize(new Dimension(500,50));
+				    dataDisplay.setFillsViewportHeight(true);
+				    scroller = new JScrollPane(dataDisplay);
+				    add(scroller);
+					dataDisplay.setVisible(true);
+					scroller.setVisible(true);
+					}*/
 				} catch (CustomerException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -190,6 +225,49 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 				}
 			} 
 		} // end src == btnLoad
+		if (src == btnDisplayInfo) {
+			pnlDisplay.setVisible(false);
+			dataDisplay = new JTable(sampleData, columnNamesCustomer);
+		    dataDisplay.setPreferredScrollableViewportSize(new Dimension(500,50));
+		    dataDisplay.setFillsViewportHeight(true);
+		    scroller = new JScrollPane(dataDisplay);
+		    add(scroller);
+		    pnlDisplay.setVisible(true);
+		    try {
+				tempData.setText("Name: " + pr.getCustomerByIndex(2).getName());
+			} catch (CustomerException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			//dataDisplay.setVisible(true);
+			//scroller.setVisible(true);
+			}
+//			tempData.setText(/*"\tLog File: " +logFile.getName()
+//			+*/ "\n\n" + "Customer" 
+//			+ "\n\n" + "Customer Name: "
+//			+ "\n" + "Mobile Number: " 
+//			+ "\n" + "Customer Type: "
+//			+ "\n" + "X and Y Location: "
+//			+ "\n" + "Distance From Restaurant: "
+//			+ "\n\n" + "Pizza"
+//			+ "\n\n" + "Pizza Type: "
+//			+ "\n" + "Quantity: "
+//			+ "\n" + "Order Price: "
+//			+ "\n" + "Order Cost: "
+//			+ "\n" + "Order Profit: "
+//			);
+		if (src == btnReset) {
+			btnDisplayInfo.setEnabled(false);
+			btnCalc.setEnabled(false);
+			btnReset.setEnabled(false);
+			btnLoad.setEnabled(true);
+			dataDisplay.removeAll();
+			scroller.removeAll();
+			pnlDisplay.setVisible(true);
+			pr.resetDetails();
+		}
+		// Code for another button
+		
 	}
 }
 
