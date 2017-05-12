@@ -35,46 +35,128 @@ import javax.swing.*;
  *
  */
 public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionListener {
-	private static final int FONT_SIZE = 12;
+	private static final int SIXTH_SEGMENT = 5, FIFTH_SEGMENT = 4, 
+			FOURTH_SEGMENT = 3, THIRD_SEGMENT = 2, SECOND_SEGMENT = 1, 
+			FIRST_SEGMENT = 0, MAX_DATA_SEGMENT = 9, FONT_SIZE = 12;
 	private static final long serialVersionUID = -7031008862559936404L;
-	public static final int WIDTH = 400, HEIGHT = 400;
+	public static final int WIDTH = 500, HEIGHT = 500;
 	private PizzaRestaurant pr;
 	private JButton btnLoad, btnDisplayInfo, btnCalc, btnReset;
 	private JPanel pnlDisplay, pnlTop, 
-		pnlBottom, pnlRight, pnlLeft;
-	private JTextArea tempData;
+	pnlBottom, pnlRight, pnlLeft;
+	private JTextArea tempData; // remove
 	private JTable dataDisplay;
 	private JScrollPane scroller;
+	private JComboBox filter;
 	private JFileChooser fc;
 	private String quickDir = "C:\\Users\\calum\\Documents\\GitHub\\asgn2\\logs";
-	
-	// table columns
-	private String[] columnNamesCustomer = {"Name", "Number", "Type", "X-Location", "Y-Location", "Distance"};
-	private String[] columnNamesOrder = {"Type", "Quantity", "Order Price", "Order Cost", "Order Profit"};
-	
-	String[][] sampleData = {
-			{"Bob", "040404040", "Drone", "6", "-5", "6"},
-			{"George", "030302303", "Pick Up", "4", "4", "0"},
-			{"Bob", "040404040", "Drone", "6", "-5", "6"},
-			{"George", "030302303", "Pick Up", "4", "4", "0"},
-			{"Bob", "040404040", "Drone", "6", "-5", "6"},
-			{"George", "030302303", "Pick Up", "4", "4", "0"},
-			{"Bob", "040404040", "Drone", "6", "-5", "6"},
-			{"George", "030302303", "Pick Up", "4", "4", "0"},
-			{"Bob", "040404040", "Drone", "6", "-5", "6"},
-			{"George", "030302303", "Pick Up", "4", "4", "0"},
-			{"Bob", "040404040", "Drone", "6", "-5", "6"},
-			{"George", "030302303", "Pick Up", "4", "4", "0"},
-			{"Bob", "040404040", "Drone", "6", "-5", "6"},
-			{"George", "030302303", "Pick Up", "4", "4", "0"},
-			{"Bob", "040404040", "Drone", "6", "-5", "6"},
-			{"George", "030302303", "Pick Up", "4", "4", "0"},
-			{"Bob", "040404040", "Drone", "6", "-5", "6"},
-			{"George", "030302303", "Pick Up", "4", "4", "0"},
-			{"Bob", "040404040", "Drone", "6", "-5", "6"},
-			{"George", "030302303", "Pick Up", "4", "4", "0"}
+	private String[] columnNamesCustomer = {"Name", "Number", "Type", "X-Location", "Y-Location", "Distance"},
+			columnNamesPizza = {"Type", "Quantity", "Order Price", "Order Cost", "Order Profit"},
+			filterChoice = {"Customer Info", "Pizza Info"};
+
+	String[][] logData = {
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
+			{"", "", "", "", "", ""},
 	};
-	
+
 	/**
 	 * Creates a new Pizza GUI with the specified title 
 	 * @param title - The title for the supertype JFrame
@@ -83,65 +165,61 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 		super(title);
 		pr = new PizzaRestaurant();
 	}
-	
+
 	private void createGUI() {
 		setSize(WIDTH, HEIGHT);
-	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    setLayout(new BorderLayout());
-	    
-	    btnLoad = createButton("Load File");
-	    btnDisplayInfo = createButton("Display Info");
-	    btnCalc = createButton("Perform Calculations");
-	    btnReset = createButton("Reset");
-	    btnDisplayInfo.setEnabled(false);
-	    btnCalc.setEnabled(false);
-	    btnReset.setEnabled(false);
-	    
-	    pnlDisplay = createPanel(Color.WHITE);
-	    pnlTop = createPanel(Color.LIGHT_GRAY);
-	    pnlBottom = createPanel(Color.LIGHT_GRAY);
-	    pnlRight = createPanel(Color.LIGHT_GRAY);
-	    pnlLeft = createPanel(Color.LIGHT_GRAY);
-	    
-	    tempData = createTextArea();
-	    
-	    pnlDisplay.setLayout(new BorderLayout());
-	    pnlDisplay.add(tempData, BorderLayout.CENTER);
-	    
-	    this.getContentPane().add(pnlDisplay,BorderLayout.CENTER);
-	    this.getContentPane().add(pnlTop,BorderLayout.NORTH);
-	    this.getContentPane().add(pnlBottom,BorderLayout.SOUTH);
-	    this.getContentPane().add(pnlRight,BorderLayout.EAST);
-	    this.getContentPane().add(pnlLeft,BorderLayout.WEST);
-	    
-//	    dataDisplay = new JTable(sampleData, columnNamesCustomer);
-//	    dataDisplay.setPreferredScrollableViewportSize(new Dimension(500,50));
-//	    dataDisplay.setFillsViewportHeight(true);
-//	    scroller = new JScrollPane(dataDisplay);
-//	    add(scroller);
-//	    dataDisplay.setVisible(false);
-//	    scroller.setVisible(false);
-	    
-	    layoutButtonPanel();
-	    
-	    repaint();
-	    this.setVisible(true);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLayout(new BorderLayout());
+
+		btnLoad = createButton("Load File");
+		btnDisplayInfo = createButton("Display Info");
+		btnCalc = createButton("Perform Calculations");
+		btnReset = createButton("Reset");
+		btnDisplayInfo.setEnabled(false);
+		btnCalc.setEnabled(false);
+		btnReset.setEnabled(false);
+
+		pnlDisplay = createPanel(Color.WHITE);
+		pnlTop = createPanel(Color.LIGHT_GRAY);
+		pnlBottom = createPanel(Color.LIGHT_GRAY);
+		pnlRight = createPanel(Color.LIGHT_GRAY);
+		pnlLeft = createPanel(Color.LIGHT_GRAY);
+
+		tempData = createTextArea(); // remove
+		
+		filter = new JComboBox(filterChoice);
+		
+		pnlDisplay.setLayout(new BorderLayout());
+		pnlRight.setLayout(new BorderLayout());
+		pnlRight.add(filter, BorderLayout.CENTER); // edit
+		
+
+		this.getContentPane().add(pnlDisplay,BorderLayout.CENTER);
+		this.getContentPane().add(pnlTop,BorderLayout.NORTH);
+		this.getContentPane().add(pnlBottom,BorderLayout.SOUTH);
+		this.getContentPane().add(pnlRight,BorderLayout.EAST);
+		this.getContentPane().add(pnlLeft,BorderLayout.WEST);
+
+		layoutButtonPanel();
+
+		repaint();
+		this.setVisible(true);
 	}
-	
+
 	private JButton createButton(String text) {
 		JButton btn = new JButton(text); 
 		btn.addActionListener(this);
 		return btn; 
 	}
-	
+
 	private JPanel createPanel(Color c) {
 		JPanel pnl = new JPanel();
 		pnl.setBackground(c);
 		return pnl;
 	}
-	
 
-	
+
+
 	private JTextArea createTextArea() {
 		JTextArea txtArea = new JTextArea(); 
 		txtArea.setEditable(false);
@@ -150,46 +228,46 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 		txtArea.setBorder(BorderFactory.createEtchedBorder());
 		return txtArea;
 	}
-	
+
 	private void layoutButtonPanel() {
 		GridBagLayout layout = new GridBagLayout();
-	    pnlBottom.setLayout(layout);
-	    
-	    //add components to grid
-	    GridBagConstraints constraints = new GridBagConstraints(); 
-	    
-	    //Defaults
-	    constraints.fill = GridBagConstraints.NONE;
-	    constraints.anchor = GridBagConstraints.CENTER;
-	    constraints.weightx = 100;
-	    constraints.weighty = 100;
-	    
-	    addToPanel(pnlBottom, btnLoad,constraints,0,0,2,1);
-	    addToPanel(pnlBottom, btnDisplayInfo,constraints,6,0,2,1);
-	    addToPanel(pnlBottom, btnCalc,constraints,0,6,2,1);
-	    addToPanel(pnlBottom, btnReset,constraints,6,6,2,1);
+		pnlBottom.setLayout(layout);
+
+		//add components to grid
+		GridBagConstraints constraints = new GridBagConstraints(); 
+
+		//Defaults
+		constraints.fill = GridBagConstraints.NONE;
+		constraints.anchor = GridBagConstraints.CENTER;
+		constraints.weightx = 100;
+		constraints.weighty = 100;
+
+		addToPanel(pnlBottom, btnLoad,constraints,0,0,2,1);
+		addToPanel(pnlBottom, btnDisplayInfo,constraints,6,0,2,1);
+		addToPanel(pnlBottom, btnCalc,constraints,0,6,2,1);
+		addToPanel(pnlBottom, btnReset,constraints,6,6,2,1);
 	}
-	
+
 	private void addToPanel(JPanel jp,Component c, GridBagConstraints constraints, int x, int y, int w, int h) {  
-	      constraints.gridx = x;
-	      constraints.gridy = y;
-	      constraints.gridwidth = w;
-	      constraints.gridheight = h;
-	      jp.add(c, constraints);
-	   }
-	
+		constraints.gridx = x;
+		constraints.gridy = y;
+		constraints.gridwidth = w;
+		constraints.gridheight = h;
+		jp.add(c, constraints);
+	}
+
 	@Override
 	public void run() {
 		createGUI();
 	}
-	
+
 	// Still implementing - not finished
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		int returnVal;
 		File logFile;
 		fc = new JFileChooser(quickDir);
-		
+
 		//Get event source 
 		Object src = e.getSource(); 		      
 		//Consider the alternatives - not all active at once. 
@@ -197,13 +275,12 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 			returnVal = fc.showOpenDialog(PizzaGUI.this);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				btnDisplayInfo.setEnabled(true);
-				btnCalc.setEnabled(true);
 				btnReset.setEnabled(true);
 				btnLoad.setEnabled(false);
 				logFile = fc.getSelectedFile();
 				try {
 					pr.processLog(logFile.getName());
-/*					if (src == btnDisplayInfo) {
+					/*					if (src == btnDisplayInfo) {
 					pnlDisplay.setVisible(false);
 					dataDisplay = new JTable(sampleData, columnNamesCustomer);
 				    dataDisplay.setPreferredScrollableViewportSize(new Dimension(500,50));
@@ -225,37 +302,90 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 				}
 			} 
 		} // end src == btnLoad
+
 		if (src == btnDisplayInfo) {
 			pnlDisplay.setVisible(false);
-			dataDisplay = new JTable(sampleData, columnNamesCustomer);
-		    dataDisplay.setPreferredScrollableViewportSize(new Dimension(500,50));
-		    dataDisplay.setFillsViewportHeight(true);
-		    scroller = new JScrollPane(dataDisplay);
-		    add(scroller);
-		    pnlDisplay.setVisible(true);
-		    try {
-				tempData.setText("Name: " + pr.getCustomerByIndex(2).getName());
-			} catch (CustomerException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			btnCalc.setEnabled(true);
+			dataDisplay = new JTable(logData, columnNamesCustomer);
+			dataDisplay.setPreferredScrollableViewportSize(new Dimension(500,50));
+			dataDisplay.setFillsViewportHeight(true);
+			scroller = new JScrollPane(dataDisplay);
+			add(scroller);
+			pnlDisplay.setVisible(false);
+
+			for (int dataLine = 0; dataLine < pr.getNumCustomerOrders(); dataLine++){
+				for (int dataSegment = 0; dataSegment < MAX_DATA_SEGMENT; dataSegment++) {
+					switch (dataSegment) {
+					case FIRST_SEGMENT:
+						try {
+							logData[dataLine][dataSegment] = pr.getCustomerByIndex(dataLine).getName();
+						} catch (CustomerException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						break;
+					case SECOND_SEGMENT:
+						try {
+							logData[dataLine][dataSegment] = pr.getCustomerByIndex(dataLine).getMobileNumber();
+						} catch (CustomerException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						break;
+					case THIRD_SEGMENT:
+						try {
+							logData[dataLine][dataSegment] = pr.getCustomerByIndex(dataLine).getCustomerType();
+						} catch (CustomerException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						break;
+					case FOURTH_SEGMENT:
+						try {
+							String xLocation = Integer.toString(pr.getCustomerByIndex(dataLine).getLocationX());
+							logData[dataLine][dataSegment] = xLocation;
+						} catch (CustomerException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						break;
+					case FIFTH_SEGMENT:
+						try {
+							String yLocation = Integer.toString(pr.getCustomerByIndex(dataLine).getLocationY());
+							logData[dataLine][dataSegment] = yLocation;
+						} catch (CustomerException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						break;
+					default:
+						break;
+					}
+				}
+			} // end of first for loop
+
+		}
+
+		if (src == btnCalc) {
+			for (int dataLine = 0; dataLine < pr.getNumCustomerOrders(); dataLine++){
+				for (int dataSegment = 0; dataSegment < MAX_DATA_SEGMENT; dataSegment++) {
+					switch (dataSegment) {
+					case SIXTH_SEGMENT:
+						try {
+							String distance = Double.toString(pr.getCustomerByIndex(dataLine).getDeliveryDistance());
+							logData[dataLine][dataSegment] = distance;
+						} catch (CustomerException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						break;
+					default:
+						break;
+					}
+				}
 			}
-			//dataDisplay.setVisible(true);
-			//scroller.setVisible(true);
-			}
-//			tempData.setText(/*"\tLog File: " +logFile.getName()
-//			+*/ "\n\n" + "Customer" 
-//			+ "\n\n" + "Customer Name: "
-//			+ "\n" + "Mobile Number: " 
-//			+ "\n" + "Customer Type: "
-//			+ "\n" + "X and Y Location: "
-//			+ "\n" + "Distance From Restaurant: "
-//			+ "\n\n" + "Pizza"
-//			+ "\n\n" + "Pizza Type: "
-//			+ "\n" + "Quantity: "
-//			+ "\n" + "Order Price: "
-//			+ "\n" + "Order Cost: "
-//			+ "\n" + "Order Profit: "
-//			);
+		}
+
 		if (src == btnReset) {
 			btnDisplayInfo.setEnabled(false);
 			btnCalc.setEnabled(false);
@@ -264,10 +394,10 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 			dataDisplay.removeAll();
 			scroller.removeAll();
 			pnlDisplay.setVisible(true);
+			tempData.setText(null); // remove
 			pr.resetDetails();
 		}
-		// Code for another button
-		
+
 	}
 }
 
