@@ -49,7 +49,8 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 	private JScrollPane scroller;
 	private JComboBox filter;
 	private JFileChooser fc;
-	private String quickDir = "C:\\Users\\calum\\Documents\\GitHub\\asgn2\\logs";
+	private String quickDir = "C:\\Users\\calum\\Documents\\GitHub\\asgn2\\logs", 
+			filterString;
 	private String[] columnNamesCustomer = {"Name", "Number", "Type", "X-Location", "Y-Location", "Distance"},
 			columnNamesPizza = {"Type", "Quantity", "Order Price", "Order Cost", "Order Profit"},
 			filterChoice = {"Customer Info", "Pizza Info"};
@@ -186,13 +187,13 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 		pnlLeft = createPanel(Color.LIGHT_GRAY);
 
 		tempData = createTextArea(); // remove
-		
+
 		filter = new JComboBox(filterChoice);
-		
+
 		pnlDisplay.setLayout(new BorderLayout());
 		pnlRight.setLayout(new BorderLayout());
 		pnlRight.add(filter, BorderLayout.CENTER); // edit
-		
+
 
 		this.getContentPane().add(pnlDisplay,BorderLayout.CENTER);
 		this.getContentPane().add(pnlTop,BorderLayout.NORTH);
@@ -256,6 +257,14 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 		jp.add(c, constraints);
 	}
 
+	private void clearTable(JTable table) {
+		for (int i = 0; i < table.getRowCount(); i++) {
+			for(int j = 0; j < table.getColumnCount(); j++) {
+				table.setValueAt("", i, j);
+			}
+		}
+	}
+
 	@Override
 	public void run() {
 		createGUI();
@@ -306,84 +315,159 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 		if (src == btnDisplayInfo) {
 			pnlDisplay.setVisible(false);
 			btnCalc.setEnabled(true);
-			dataDisplay = new JTable(logData, columnNamesCustomer);
-			dataDisplay.setPreferredScrollableViewportSize(new Dimension(500,50));
-			dataDisplay.setFillsViewportHeight(true);
-			scroller = new JScrollPane(dataDisplay);
-			add(scroller);
 			pnlDisplay.setVisible(false);
 
-			for (int dataLine = 0; dataLine < pr.getNumCustomerOrders(); dataLine++){
-				for (int dataSegment = 0; dataSegment < MAX_DATA_SEGMENT; dataSegment++) {
-					switch (dataSegment) {
-					case FIRST_SEGMENT:
-						try {
-							logData[dataLine][dataSegment] = pr.getCustomerByIndex(dataLine).getName();
-						} catch (CustomerException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-						break;
-					case SECOND_SEGMENT:
-						try {
-							logData[dataLine][dataSegment] = pr.getCustomerByIndex(dataLine).getMobileNumber();
-						} catch (CustomerException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-						break;
-					case THIRD_SEGMENT:
-						try {
-							logData[dataLine][dataSegment] = pr.getCustomerByIndex(dataLine).getCustomerType();
-						} catch (CustomerException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-						break;
-					case FOURTH_SEGMENT:
-						try {
-							String xLocation = Integer.toString(pr.getCustomerByIndex(dataLine).getLocationX());
-							logData[dataLine][dataSegment] = xLocation;
-						} catch (CustomerException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-						break;
-					case FIFTH_SEGMENT:
-						try {
-							String yLocation = Integer.toString(pr.getCustomerByIndex(dataLine).getLocationY());
-							logData[dataLine][dataSegment] = yLocation;
-						} catch (CustomerException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-						break;
-					default:
-						break;
-					}
-				}
-			} // end of first for loop
+			filterString = (String) filter.getSelectedItem();
 
+			if (filterString.contentEquals("Customer Info")) {
+				dataDisplay = new JTable(logData, columnNamesCustomer);
+				dataDisplay.setPreferredScrollableViewportSize(new Dimension(500,50)); // add constants
+				dataDisplay.setFillsViewportHeight(true);
+				scroller = new JScrollPane(dataDisplay);
+				add(scroller);
+
+				for (int dataLine = 0; dataLine < pr.getNumCustomerOrders(); dataLine++){
+					for (int dataSegment = 0; dataSegment < MAX_DATA_SEGMENT; dataSegment++) {
+						switch (dataSegment) {
+						case FIRST_SEGMENT:
+							try {
+								logData[dataLine][dataSegment] = pr.getCustomerByIndex(dataLine).getName();
+							} catch (CustomerException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							break;
+						case SECOND_SEGMENT:
+							try {
+								logData[dataLine][dataSegment] = pr.getCustomerByIndex(dataLine).getMobileNumber();
+							} catch (CustomerException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							break;
+						case THIRD_SEGMENT:
+							try {
+								logData[dataLine][dataSegment] = pr.getCustomerByIndex(dataLine).getCustomerType();
+							} catch (CustomerException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							break;
+						case FOURTH_SEGMENT:
+							try {
+								String xLocation = Integer.toString(pr.getCustomerByIndex(dataLine).getLocationX());
+								logData[dataLine][dataSegment] = xLocation;
+							} catch (CustomerException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							break;
+						case FIFTH_SEGMENT:
+							try {
+								String yLocation = Integer.toString(pr.getCustomerByIndex(dataLine).getLocationY());
+								logData[dataLine][dataSegment] = yLocation;
+							} catch (CustomerException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							break;
+						default:
+							break;
+						}
+					}
+				} // end of first for loop
+			} else if (filterString.contentEquals("Pizza Info")) {
+				dataDisplay = new JTable(logData, columnNamesPizza);
+				dataDisplay.setPreferredScrollableViewportSize(new Dimension(500,50)); // add constants
+				dataDisplay.setFillsViewportHeight(true);
+				scroller = new JScrollPane(dataDisplay);
+				add(scroller);
+
+				for (int dataLine = 0; dataLine < pr.getNumPizzaOrders(); dataLine++){
+					for (int dataSegment = 0; dataSegment < MAX_DATA_SEGMENT; dataSegment++) {
+						switch (dataSegment) {
+						case FIRST_SEGMENT:
+							try {
+								logData[dataLine][dataSegment] = pr.getPizzaByIndex(dataLine).getPizzaType();
+							} catch (PizzaException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							break;
+						case SECOND_SEGMENT:
+							try {
+								String quantity = Integer.toString(pr.getPizzaByIndex(dataLine).getQuantity());
+								logData[dataLine][dataSegment] = quantity;
+							} catch (PizzaException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							break;
+						case THIRD_SEGMENT:
+							try {
+								String orderPrice = Double.toString(pr.getPizzaByIndex(dataLine).getOrderPrice());
+								logData[dataLine][dataSegment] = orderPrice;
+							} catch (PizzaException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							break;
+						case FOURTH_SEGMENT:
+							try {
+								String orderCost = Double.toString(pr.getPizzaByIndex(dataLine).getOrderCost());
+								logData[dataLine][dataSegment] = orderCost;
+							} catch (PizzaException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							break;
+						default:
+							break;
+						}
+					}
+				} // end of first for loop
+			}
 		}
 
 		if (src == btnCalc) {
-			for (int dataLine = 0; dataLine < pr.getNumCustomerOrders(); dataLine++){
-				for (int dataSegment = 0; dataSegment < MAX_DATA_SEGMENT; dataSegment++) {
-					switch (dataSegment) {
-					case SIXTH_SEGMENT:
-						try {
-							String distance = Double.toString(pr.getCustomerByIndex(dataLine).getDeliveryDistance());
-							logData[dataLine][dataSegment] = distance;
-						} catch (CustomerException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
+			if (filterString.contentEquals("Customer Info")) {
+				for (int dataLine = 0; dataLine < pr.getNumCustomerOrders(); dataLine++){
+					for (int dataSegment = 0; dataSegment < MAX_DATA_SEGMENT; dataSegment++) {
+						switch (dataSegment) {
+						case SIXTH_SEGMENT:
+							try {
+								String distance = Double.toString(pr.getCustomerByIndex(dataLine).getDeliveryDistance());
+								logData[dataLine][dataSegment] = distance;
+							} catch (CustomerException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							break;
+						default:
+							break;
 						}
-						break;
-					default:
-						break;
+					}
+				}
+			} else if (filterString.contentEquals("Pizza Info")) {
+				for (int dataLine = 0; dataLine < pr.getNumPizzaOrders(); dataLine++){
+					for (int dataSegment = 0; dataSegment < MAX_DATA_SEGMENT; dataSegment++) {
+						switch (dataSegment) {
+						case FIFTH_SEGMENT:
+							try {
+								String orderProfit = Double.toString(pr.getPizzaByIndex(dataLine).getOrderProfit());
+								logData[dataLine][dataSegment] = orderProfit;
+							} catch (PizzaException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							break;
+						default:
+							break;
+						}
 					}
 				}
 			}
+			//btnCalc.setEnabled(false); --> Needs to be disabled when pressed?
 		}
 
 		if (src == btnReset) {
@@ -391,7 +475,8 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 			btnCalc.setEnabled(false);
 			btnReset.setEnabled(false);
 			btnLoad.setEnabled(true);
-			dataDisplay.removeAll();
+			dataDisplay.removeAll(); // Decide if better method \/
+			clearTable(dataDisplay); // Decide if better method ^
 			scroller.removeAll();
 			pnlDisplay.setVisible(true);
 			tempData.setText(null); // remove

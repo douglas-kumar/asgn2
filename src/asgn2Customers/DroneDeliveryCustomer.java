@@ -42,6 +42,9 @@ public class DroneDeliveryCustomer extends Customer {
     public DroneDeliveryCustomer(String name, String mobileNumber, int locationX, int locationY)
             throws CustomerException {
         super(name, mobileNumber, locationX, locationY, "Drone Delivery");
+        // Person A edit - Calum
+        if (locationX == 0 && locationY == 0)
+        	throw new CustomerException("Cannot deliver to the same location as the restaurant");
     }
 
     /**

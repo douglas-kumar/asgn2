@@ -124,7 +124,7 @@ public abstract class Pizza  {
 	 * @return The amount that the entire order costs to make, taking into account the type and quantity of pizzas. 
 	 */
 	public final double getOrderCost() {
-		return (costs * quantity);
+		return (this.getCostPerPizza() * quantity);
 	}
 	
 	/**
