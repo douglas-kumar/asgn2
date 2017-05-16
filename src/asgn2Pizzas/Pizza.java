@@ -24,7 +24,7 @@ public abstract class Pizza  {
 	private double price, costs;
 	private LocalTime orderTime, deliveryTime;
 	private String type;
-	private ArrayList<PizzaTopping> listOfToppings;
+	protected ArrayList<PizzaTopping> listOfToppings;
 	/**
 	 *  This class represents a pizza produced at the Pizza Palace restaurant.  A detailed description of the class's fields
 	 *  and parameters is provided in the Assignment Specification, in particular in Section 5.1. 
@@ -48,8 +48,8 @@ public abstract class Pizza  {
 		if (orderTime.isBefore(LocalTime.of(19, 00))) throw new PizzaException("Cannot order before 7:00pm");
 		if (orderTime.isAfter(LocalTime.of(23, 00)))throw new PizzaException("Cannot order after 11:00pm");
 		if (deliveryTime.isBefore(LocalTime.of(19, 00))) throw new PizzaException("Cannot deliver order before 7:00pm");
-		//if (!type.contentEquals("Margherita") || !type.contentEquals("Vegetarian") || !type.contentEquals("Meat Lovers"))
-			//throw new PizzaException("Invalid Pizza type");
+		// “A pizza takes at least 10 minutes to cook and is thrown out after 1 hour (including delivery time)” to "A pizza takes at least 10 minutes to cook and is thrown out after 1 hour (including delivery time) to from the time that a pizza was ordered." (i.e. I added the final phrase)
+		// ^^^^ TO DO: ^^^^
 		
 		this.quantity = quantity;
 		this.orderTime = orderTime;
@@ -66,32 +66,8 @@ public abstract class Pizza  {
 	 * <P> POST: The cost field is set to sum of the Pizzas's toppings
 	 */
 	public final void calculateCostPerPizza() {
-		switch (type) {
-		case "Margherita":
-			listOfToppings.add(PizzaTopping.TOMATO);
-			listOfToppings.add(PizzaTopping.CHEESE);
-			costs = PizzaTopping.TOMATO.getCost() + PizzaTopping.CHEESE.getCost();
-			break;
-		case "Vegetarian":
-			listOfToppings.add(PizzaTopping.TOMATO);
-			listOfToppings.add(PizzaTopping.CHEESE);
-			listOfToppings.add(PizzaTopping.EGGPLANT);
-			listOfToppings.add(PizzaTopping.MUSHROOM);
-			listOfToppings.add(PizzaTopping.CAPSICUM);
-			costs = PizzaTopping.TOMATO.getCost() + PizzaTopping.CHEESE.getCost()
-					+ PizzaTopping.EGGPLANT.getCost() + PizzaTopping.MUSHROOM.getCost()
-					+ PizzaTopping.CAPSICUM.getCost();
-			break;
-		default:
-			listOfToppings.add(PizzaTopping.TOMATO);
-			listOfToppings.add(PizzaTopping.CHEESE);
-			listOfToppings.add(PizzaTopping.BACON);
-			listOfToppings.add(PizzaTopping.PEPPERONI);
-			listOfToppings.add(PizzaTopping.SALAMI);
-			costs = PizzaTopping.TOMATO.getCost() + PizzaTopping.CHEESE.getCost()
-					+ PizzaTopping.BACON.getCost() + PizzaTopping.PEPPERONI.getCost()
-					+ PizzaTopping.SALAMI.getCost();
-			break;
+		for (PizzaTopping topping : listOfToppings) {
+			costs += topping.getCost();
 		}
 	}
 	
@@ -99,8 +75,7 @@ public abstract class Pizza  {
 	 * Returns the amount that an individual pizza costs to make.
 	 * @return The amount that an individual pizza costs to make.
 	 */
-	public final double getCostPerPizza(){
-		this.calculateCostPerPizza();
+	public final double getCostPerPizza() {
 		return costs;
 	}
 

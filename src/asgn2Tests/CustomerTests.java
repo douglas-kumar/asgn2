@@ -19,7 +19,7 @@ import org.junit.Test;
  */
 public class CustomerTests {
 	private static final double DELTA = 1e-15;
-	private DriverDeliveryCustomer john, mark, 
+	private DriverDeliveryCustomer john, mark, terry, 
 			nonInstanciatedJohn, invalidJohn;
 	private DroneDeliveryCustomer jill, mary, invalidJill;
 	private String expectedString, notSameString;
@@ -30,6 +30,7 @@ public class CustomerTests {
 	public void customerInstanciation() throws CustomerException {
 		john = new DriverDeliveryCustomer("John", "0443514214", 4, 3);
 		mark = new DriverDeliveryCustomer("Mark", "0400123456", -6, -3);
+		terry = new DriverDeliveryCustomer("Terry", "0123456789", -10, 10);
 		jill = new DroneDeliveryCustomer("Jill", "0431431414", 5, 8);
 		mary = new DroneDeliveryCustomer("Mary", "0453920960", -9, 0);
 	}
@@ -74,14 +75,38 @@ public class CustomerTests {
 	}
 	
 	@Test
+	public void getXLocationIsWorkingForNegativeNums() {
+		expectedResult = -6;
+		assertEquals(expectedResult, mark.getLocationX());
+	}
+	
+	@Test
+	public void getXLocationOfMaxRangeIsInclusive() {
+		expectedResult = -10;
+		assertEquals(expectedResult, terry.getLocationX());
+	}
+	
+	@Test
+	public void getYLocationOfMaxRangeIsInclusive() {
+		expectedResult = 10;
+		assertEquals(expectedResult, terry.getLocationY());
+	}
+	
+	@Test
 	public void getYLocationIsWorking() {
 		expectedResult = 3;
 		assertEquals(expectedResult, john.getLocationY());
 	}
 	
 	@Test
+	public void getYLocationIsWorkingForNegativeNums() {
+		expectedResult = -3;
+		assertEquals(expectedResult, mark.getLocationY());
+	}
+	
+	@Test
 	public void getCustomerTypeIsWorking() {
-		expectedString = "DVC";
+		expectedString = "Driver Delivery";
 		assertEquals(expectedString, john.getCustomerType());
 	}
 	
@@ -97,55 +122,97 @@ public class CustomerTests {
 		assertEquals(expectedDistance, mark.getDeliveryDistance(), DELTA);
 	}
 	
+	@Test
+	public void checkSameInstantiationIsActuallyTheSame() {
+		assertSame(john, john);
+	}
+	@Test
+	public void checkDiffInstantiationsOfSameClassAreActuallyDiffObj() {
+		assertNotSame(john, mark);
+	}
+	
+	@Test
+	public void checkNamesAreDiffBetweenTwoInstantiations() {
+		assertNotSame(john.getName(), mark.getName());
+	}
+	
+	@Test
+	public void xXX() {
+		// TO DO:
+	}
+	
 	// ------ Exception Testing for DriverDeliveryCustomer class -----	 	
 	
 	@Test(expected=CustomerException.class)
-	public void invalidInstanciation() throws CustomerException {
+	public void invalidInstanciationWithAllArgs() throws CustomerException {
 		invalidJohn = new DriverDeliveryCustomer("", "", 0, 0);
 	}
 	
 	@Test(expected=CustomerException.class)
-	public void invalidName() throws CustomerException {
+	public void emptyName() throws CustomerException {
 		invalidJohn = new DriverDeliveryCustomer("", "0443514314", 3, 5);
 	}
 	
 	@Test(expected=CustomerException.class)
-	public void invalidNumberTooShort() throws CustomerException {
+	public void exceptionThrownWhenWhiteSpaceCharName() throws CustomerException {
+		invalidJohn = new DriverDeliveryCustomer("   ", "0443514314", 3, 5);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhenWhiteSpaceCharNameAndLongerThanTwentyCharsLong() 
+			throws CustomerException {
+		invalidJohn = new DriverDeliveryCustomer("                       ", "0443514314", 3, 5);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void mobNumberTooShort() throws CustomerException {
 		invalidJohn = new DriverDeliveryCustomer("John", "04434314", 3, 5);
 	}
 	
-	// should be able to add +61 instead of 0???
 	@Test(expected=CustomerException.class)
-	public void invalidNumberDoesNotStartWithZero() throws CustomerException {
-		invalidJohn = new DriverDeliveryCustomer("", "443514314", 3, 5);
+	public void mobNumberDoesNotStartWithZero() throws CustomerException {
+		invalidJohn = new DriverDeliveryCustomer("John", "443514314", 3, 5);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void mobNumberDoesNotStartWithZeroAndTenDigits() throws CustomerException {
+		invalidJohn = new DriverDeliveryCustomer("John", "4435143144", 3, 5);
 	}
 	
 	@Test(expected=CustomerException.class)
 	public void xLocationTooHigh() throws CustomerException {
-		invalidJohn = new DriverDeliveryCustomer("John", "0443514314", 40, 5);
+		invalidJohn = new DriverDeliveryCustomer("John", "0443514314", 11, 5);
 	}
 	
 	@Test(expected=CustomerException.class)
 	public void yLocationTooHigh() throws CustomerException {
-		invalidJohn = new DriverDeliveryCustomer("John", "0443514314", 3, 35);
+		invalidJohn = new DriverDeliveryCustomer("John", "0443514314", 3, 11);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void xAndYLocationAreZero() throws CustomerException {
+		invalidJohn = new DriverDeliveryCustomer("John", "0443514314", 0, 0);
 	}
 	
 	@Test(expected=CustomerException.class)
 	public void xLocationTooHighWithNegativeNums() throws CustomerException {
-		invalidJohn = new DriverDeliveryCustomer("", "0443514314", -40, 5);
+		invalidJohn = new DriverDeliveryCustomer("John", "0443514314", -11, 5);
 	}
 	
 	@Test(expected=CustomerException.class)
 	public void yLocationTooHighWithNegativeNums() throws CustomerException {
-		invalidJohn = new DriverDeliveryCustomer("", "0443514314", 3, -35);
+		invalidJohn = new DriverDeliveryCustomer("John", "0443514314", 3, -11);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void xAndYLocationTooHighWithNegativeNums() throws CustomerException {
+		invalidJohn = new DriverDeliveryCustomer("John", "0443514314", -13, -35);
 	}
 	
 	@Test(expected=CustomerException.class)
 	public void NameIsLongerThanTwentyCharacters() throws CustomerException {
 		invalidJohn = new DriverDeliveryCustomer("JJJJoooooohhhhhnnnnnnnn", "0443514314", 3, 5);
 	}
-	
-	// Possibly add more tests...
 	
 	// ---------------------------------------------------
 	// ---------- DroneDeliveryCustomer Testing ----------

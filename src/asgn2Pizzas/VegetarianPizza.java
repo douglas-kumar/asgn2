@@ -35,6 +35,11 @@ public class VegetarianPizza extends Pizza {
 	 */
 	public VegetarianPizza(int quantity, LocalTime orderTime, LocalTime deliveryTime) throws PizzaException {
 		super(quantity, orderTime, deliveryTime, VEGETARIAN,  VEGETARIAN_PRICE);
+		listOfToppings.add(PizzaTopping.TOMATO);
+		listOfToppings.add(PizzaTopping.CHEESE);
+		listOfToppings.add(PizzaTopping.EGGPLANT);
+		listOfToppings.add(PizzaTopping.MUSHROOM);
+		listOfToppings.add(PizzaTopping.CAPSICUM);
 	}
 
 }

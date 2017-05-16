@@ -44,7 +44,6 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 	private JButton btnLoad, btnDisplayInfo, btnCalc, btnReset;
 	private JPanel pnlDisplay, pnlTop, 
 	pnlBottom, pnlRight, pnlLeft;
-	private JTextArea tempData; // remove
 	private JTable dataDisplay;
 	private JScrollPane scroller;
 	private JComboBox filter;
@@ -186,8 +185,6 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 		pnlRight = createPanel(Color.LIGHT_GRAY);
 		pnlLeft = createPanel(Color.LIGHT_GRAY);
 
-		tempData = createTextArea(); // remove
-
 		filter = new JComboBox(filterChoice);
 
 		pnlDisplay.setLayout(new BorderLayout());
@@ -289,16 +286,6 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 				logFile = fc.getSelectedFile();
 				try {
 					pr.processLog(logFile.getName());
-					/*					if (src == btnDisplayInfo) {
-					pnlDisplay.setVisible(false);
-					dataDisplay = new JTable(sampleData, columnNamesCustomer);
-				    dataDisplay.setPreferredScrollableViewportSize(new Dimension(500,50));
-				    dataDisplay.setFillsViewportHeight(true);
-				    scroller = new JScrollPane(dataDisplay);
-				    add(scroller);
-					dataDisplay.setVisible(true);
-					scroller.setVisible(true);
-					}*/
 				} catch (CustomerException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -475,11 +462,11 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 			btnCalc.setEnabled(false);
 			btnReset.setEnabled(false);
 			btnLoad.setEnabled(true);
-			dataDisplay.removeAll(); // Decide if better method \/
+			//dataDisplay.removeAll(); // Decide if better method \/
 			clearTable(dataDisplay); // Decide if better method ^
 			scroller.removeAll();
 			pnlDisplay.setVisible(true);
-			tempData.setText(null); // remove
+
 			pr.resetDetails();
 		}
 

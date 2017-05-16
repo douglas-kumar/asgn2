@@ -108,10 +108,6 @@ public class CustomerFactoryTests {
 				CustomerFactory.getCustomer("PUC", "Mark", "0447539207", 3, 4).getCustomerType());
 	}
 
-	/*
-	 * Check that delivery is not allowed to be 0,0 coords
-	 * Applies to exceptions below
-	 */
 	@Test(expected=CustomerException.class)
 	public void exceptionThrownWhenXAndYLocationIsZeroIfDroneDelivery() throws CustomerException {
 		expectedString = "Drone Delivery";
