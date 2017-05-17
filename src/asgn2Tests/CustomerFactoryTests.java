@@ -93,6 +93,11 @@ public class CustomerFactoryTests {
 		assertEquals(expectedNum, 
 				CustomerFactory.getCustomer("DVC", "Mark", "0447539207", 3, 4).getLocationY());
 	}
+	
+	@Test
+	public void xXX() throws CustomerException {
+		// TODO:
+	}
 
 	// ----------- Exception Testing -------------
 
@@ -100,7 +105,62 @@ public class CustomerFactoryTests {
 	public void exceptionThrownWhenInvalidCustomerCode() throws CustomerException {
 		CustomerFactory.getCustomer("WER", "John", "0443514214", 4, 3);
 	}
-
+	
+	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhenEmptyName() throws CustomerException {
+		CustomerFactory.getCustomer("DNC", "", "0443514214", 4, 3);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhenWhiteSpaceName() throws CustomerException {
+		CustomerFactory.getCustomer("DNC", "  ", "0443514214", 4, 3);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhenNameTooLong() throws CustomerException {
+		CustomerFactory.getCustomer("DNC", "Johhhhhhnnnnnnnnnnnnn", "0443514214", 4, 3);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhenNameTooLongAndWhiteSpace() throws CustomerException {
+		CustomerFactory.getCustomer("DNC", "                        ", "0443514214", 4, 3);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhenMobNumDoesNotStartWithZero() throws CustomerException {
+		CustomerFactory.getCustomer("DNC", "John", "4443514214", 4, 3);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhenMobNumLessThanTenDigits() throws CustomerException {
+		CustomerFactory.getCustomer("DNC", "John", "043514214", 4, 3);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhenMobNumMoreThanTenDigits() throws CustomerException {
+		CustomerFactory.getCustomer("DNC", "John", "04351421444", 4, 3);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhenXLocationIsTooHigh() throws CustomerException {
+		CustomerFactory.getCustomer("DNC", "John", "0435142144", 11, 3);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhenXLocationIsTooLow() throws CustomerException {
+		CustomerFactory.getCustomer("DNC", "John", "0435142144", -11, 3);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhenYLocationIsTooHigh() throws CustomerException {
+		CustomerFactory.getCustomer("DNC", "John", "0435142144", -1, 11);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhenYLocationIsTooLow() throws CustomerException {
+		CustomerFactory.getCustomer("DNC", "John", "0435142144", 3, -11);
+	}
+	
 	@Test(expected=CustomerException.class)
 	public void exceptionThrownWhenXAndYLocationNotZeroIfPickUp() throws CustomerException {
 		expectedString = "Pick Up";

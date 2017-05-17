@@ -137,8 +137,34 @@ public class CustomerTests {
 	}
 	
 	@Test
-	public void xXX() {
-		// TO DO:
+	public void checkMobNumsAreDiffBetweenTwoInstantiations() {
+		assertNotSame(john.getMobileNumber(), mark.getMobileNumber());
+	}
+	
+	@Test
+	public void checkTypesAreSameBetweenTwoInstantiationsOfSameObj() {
+		assertSame(john.getCustomerType(), mark.getCustomerType());
+	}
+	
+	@Test
+	public void checkXLocationsAreDiffBetweenTwoInstantiations() {
+		assertNotSame(john.getLocationX(), mark.getLocationX());
+	}
+	
+	@Test
+	public void checkYLocationsAreDiffBetweenTwoInstantiations() {
+		assertNotSame(john.getLocationY(), mark.getLocationY());
+	}
+	
+	@Test
+	public void checkDelivDistAreDiffBetweenTwoInstantiations() {
+		assertNotSame(john.getDeliveryDistance(), mark.getDeliveryDistance());
+	}
+	
+	// ------- Mixed Classes Testing ------------
+	@Test
+	public void checkTypesAreDiffBetweenTwoInstantiationsOfDiffClassObj() {
+		assertNotSame(john.getCustomerType(), jill.getCustomerType());
 	}
 	
 	// ------ Exception Testing for DriverDeliveryCustomer class -----	 	
