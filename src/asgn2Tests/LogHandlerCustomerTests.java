@@ -116,8 +116,10 @@ public class LogHandlerCustomerTests {
 	
 	@Test(expected=LogHandlerException.class)
 	public void exceptionThrownWhenFileIsNotInLogDirectory() throws CustomerException, LogHandlerException {
+		// file on my Desktop
 		LogHandler.populateCustomerDataset("story.txt");
 	}
+	
 	
 	
 }

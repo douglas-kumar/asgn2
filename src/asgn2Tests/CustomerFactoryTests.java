@@ -95,8 +95,22 @@ public class CustomerFactoryTests {
 	}
 	
 	@Test
-	public void xXX() throws CustomerException {
-		// TODO:
+	public void TwoDiffCustomersWithSameNameAreProperlySame() throws CustomerException {
+		assertSame(CustomerFactory.getCustomer("DVC", "Mark", "0447539207", 3, 4).getName(), 
+				CustomerFactory.getCustomer("DVC", "Mark", "0447539207", 3, 4).getName());
+	}
+	
+	@Test
+	public void TwoDiffCustomersWithSameMobAreProperlySame() throws CustomerException {
+		assertSame(CustomerFactory.getCustomer("DVC", "Mark", "0447539207", 3, 4).getMobileNumber(), 
+				CustomerFactory.getCustomer("DVC", "Mark", "0447539207", 3, 4).getMobileNumber());
+	}
+	
+	@Test
+	public void TwoDiffCustomersWithSameXXXAreProperlySame() throws CustomerException {
+		//TODO: assertSame(CustomerFactory.getCustomer("DVC", "Mark", "0447539207", 3, 4).getName(), 
+				//CustomerFactory.getCustomer("DVC", "Mark", "0447539207", 3, 4).getName());
+		
 	}
 
 	// ----------- Exception Testing -------------
