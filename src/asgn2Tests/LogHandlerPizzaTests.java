@@ -67,6 +67,11 @@ public class LogHandlerPizzaTests {
         pizza1 = LogHandler.createPizza("19:10:00,19:40:00,Joe Dolce,DVC,3,6,PZV,3");
     }
 
+    @Test(expected = LogHandlerException.class)
+    public void makePizzaWithBadOrderTime() throws PizzaException, LogHandlerException {
+        pizza1 = LogHandler.createPizza("-20:00:00,20:30:00,Jim Hall,0456876543,DNC,7,8,PZL,2");
+    }
+
     @Test
     public void makeAPizza() throws PizzaException, LogHandlerException {
         pizza1 = LogHandler.createPizza("19:10:00,19:40:00,Joe Dolce,0428654767,DVC,3,6,PZV,3");
