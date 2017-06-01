@@ -1,7 +1,6 @@
 package asgn2Pizzas;
 
 import java.time.LocalTime;
-import java.time.temporal.ValueRange;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -44,16 +43,18 @@ public abstract class Pizza  {
 	 * 
 	 */
 	public Pizza(int quantity, LocalTime orderTime, LocalTime deliveryTime, String type, double price) throws PizzaException{
-		if (quantity == 0) throw new PizzaException("Cannot order 0 pizza");
+		if (quantity <= 0) throw new PizzaException("Cannot order less than one pizza");
 		if (quantity > 10) throw new PizzaException("Cannot order over the maximum limit");
 		if (orderTime.isBefore(LocalTime.of(19, 00))) 
 			throw new PizzaException("Cannot order before 7:00pm");
 		if (orderTime.isAfter(LocalTime.of(23, 00))) 
 			throw new PizzaException("Cannot order after 11:00pm");
-		if (deliveryTime.isBefore(LocalTime.of(19, 00))) 
-			throw new PizzaException("Cannot deliver order before 7:00pm");
 		if (deliveryTime.isAfter(orderTime.plusHours(1))) 
 			throw new PizzaException("Pizza has expired, cannot be delivered after 1 hour of order time");
+		if (deliveryTime.isBefore(orderTime))
+			throw new PizzaException("Cannot possibly deliver before the order");
+		if (deliveryTime.isBefore(orderTime.plusMinutes(10)))
+			throw new PizzaException("Cannot deliver pizza ten minutes before order time");
 		
 		this.quantity = quantity;
 		this.orderTime = orderTime;
