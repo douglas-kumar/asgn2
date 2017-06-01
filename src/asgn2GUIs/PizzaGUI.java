@@ -223,7 +223,9 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 
                 for (int dataLine = 0; dataLine < pizzaRestaurant.getNumCustomerOrders(); dataLine++) {
 
-                    tableModel.addRow(new Object[MAX_DATA_SEGMENT]);
+                    if (tableModel.getRowCount() < pizzaRestaurant.getNumCustomerOrders()) {
+                        tableModel.addRow(new Object[MAX_DATA_SEGMENT]);
+                    }
 
                     for (int dataSegment = 0; dataSegment < MAX_DATA_SEGMENT; dataSegment++) {
                         switch (dataSegment) {
@@ -287,7 +289,9 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 
                 for (int dataLine = 0; dataLine < pizzaRestaurant.getNumPizzaOrders(); dataLine++) {
 
-                    tableModel.addRow(new Object[MAX_DATA_SEGMENT]);
+                    if (tableModel.getRowCount() < pizzaRestaurant.getNumPizzaOrders()) {
+                        tableModel.addRow(new Object[MAX_DATA_SEGMENT]);
+                    }
 
                     for (int dataSegment = 0; dataSegment < MAX_DATA_SEGMENT; dataSegment++) {
                         switch (dataSegment) {
