@@ -16,7 +16,6 @@ import asgn2Exceptions.PizzaException;
  *
  */
 public abstract class Pizza {
-    private static final double MARGHERITA_PRICE = 8, VEGETARIAN_PRICE = 10, MEAT_LOVERS_PRICE = 12;
     private int quantity;
     private double price, costs;
     private LocalTime orderTime, deliveryTime;
@@ -52,19 +51,15 @@ public abstract class Pizza {
         if (quantity <= 0)
             throw new PizzaException("Cannot order less than one pizza");
         if (quantity > 10)
-            throw new PizzaException("Cannot order over the maximum limit (10 pizzas)");
+            throw new PizzaException("Cannot order over the maximum limit");
         if (orderTime.isBefore(LocalTime.of(19, 00)))
             throw new PizzaException("Cannot order before 7:00pm");
         if (orderTime.isAfter(LocalTime.of(23, 00)))
             throw new PizzaException("Cannot order after 11:00pm");
-        if (deliveryTime.isBefore(LocalTime.of(19, 00)))
-            throw new PizzaException("Cannot deliver order before 7:00pm");
-        // “A pizza takes at least 10 minutes to cook and is thrown out after 1
-        // hour (including delivery time)” to "A pizza takes at least 10 minutes
-        // to cook and is thrown out after 1 hour (including delivery time) to
-        // from the time that a pizza was ordered." (i.e. I added the final
-        // phrase)
-        // ^^^^ TO DO: ^^^^
+        if (deliveryTime.isAfter(orderTime.plusHours(1)))
+            throw new PizzaException("Pizza has expired, cannot be delivered after 1 hour of order time");
+        if (deliveryTime.isBefore(orderTime.plusMinutes(10)))
+            throw new PizzaException("Cannot deliver pizza ten minutes or more before order time");
 
         this.quantity = quantity;
         this.orderTime = orderTime;
@@ -199,5 +194,4 @@ public abstract class Pizza {
                         && (this.getPricePerPizza()) == (otherPizza.getPricePerPizza())
                         && (this.getQuantity()) == (otherPizza.getQuantity()));
     }
-
 }
