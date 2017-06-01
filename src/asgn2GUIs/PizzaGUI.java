@@ -56,7 +56,8 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
     private JScrollPane scroller;
     private JComboBox filter;
     private JFileChooser fileChooser;
-    private String quickDir = "C:\\Users\\calum\\Documents\\GitHub\\asgn2\\logs", filterString;
+    private String quickDir = "C:\\Users\\dougm\\OneDrive\\BIT - Semester 3\\CAB302 Software Development\\git\\asgn2\\logs",
+            filterString;
     private String[] columnNamesCustomer = { "Name", "Number", "Type", "X-Location", "Y-Location", "Distance" },
             columnNamesPizza = { "Type", "Quantity", "Order Price", "Order Cost", "Order Profit" },
             filterChoice = { "Customer Info", "Pizza Info" };
@@ -340,6 +341,7 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
             }
 
             dataDisplay.setModel(tableModel);
+            pnlDisplay.updateUI();
             btnCalc.setEnabled(true);
         }
 
@@ -372,6 +374,7 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
                 }
             }
             dataDisplay.setModel(tableModel);
+            pnlDisplay.updateUI();
             btnCalc.setEnabled(false); // Disable when pressed?
             btnDisplayInfo.setEnabled(true);
         }
@@ -386,6 +389,8 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
             // dataDisplay.removeAll(); // Decide if better method \/
             // clearTable(tableModel); // Decide if better method ^
             scroller.removeAll();
+
+            pnlDisplay.updateUI();
 
             pizzaRestaurant.resetDetails();
         }
