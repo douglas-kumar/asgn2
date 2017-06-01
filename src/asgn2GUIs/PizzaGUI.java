@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
@@ -12,7 +11,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -21,7 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import asgn2Exceptions.CustomerException;
@@ -54,6 +52,7 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
     private DefaultTableModel tableModel;
     private JTable dataDisplay;
     private JScrollPane scroller;
+    private JTextField totals;
     private JComboBox filter;
     private JFileChooser fileChooser;
     private String quickDir = "C:\\Users\\dougm\\OneDrive\\BIT - Semester 3\\CAB302 Software Development\\git\\asgn2\\logs",
@@ -61,8 +60,6 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
     private String[] columnNamesCustomer = { "Name", "Number", "Type", "X-Location", "Y-Location", "Distance" },
             columnNamesPizza = { "Type", "Quantity", "Order Price", "Order Cost", "Order Profit" },
             filterChoice = { "Customer Info", "Pizza Info" };
-
-    String[][] logData = {};
 
     /**
      * Creates a new Pizza GUI with the specified title
@@ -95,10 +92,13 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
         pnlLeft = createPanel(Color.LIGHT_GRAY);
 
         filter = new JComboBox(filterChoice);
+        totals = new JTextField();
 
         pnlDisplay.setLayout(new BorderLayout());
         pnlRight.setLayout(new BorderLayout());
         pnlRight.add(filter, BorderLayout.CENTER); // edit
+        pnlTop.setLayout(new BorderLayout());
+        pnlTop.add(totals, BorderLayout.CENTER);
 
         this.getContentPane().add(pnlDisplay, BorderLayout.CENTER);
         this.getContentPane().add(pnlTop, BorderLayout.NORTH);
@@ -130,15 +130,6 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
         JPanel pnl = new JPanel();
         pnl.setBackground(c);
         return pnl;
-    }
-
-    private JTextArea createTextArea() {
-        JTextArea txtArea = new JTextArea();
-        txtArea.setEditable(false);
-        txtArea.setLineWrap(true);
-        txtArea.setFont(new Font("Arial", Font.BOLD, FONT_SIZE));
-        txtArea.setBorder(BorderFactory.createEtchedBorder());
-        return txtArea;
     }
 
     private void layoutButtonPanel() {
@@ -214,6 +205,7 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 
         if (src == btnDisplayInfo) {
             this.clearTable(tableModel);
+            totals.setText("");
 
             filterString = (String) filter.getSelectedItem();
 
@@ -277,6 +269,15 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
                                 e1.printStackTrace();
                             }
                             break;
+                        case SIXTH_SEGMENT:
+                            try {
+                                String distance = Double
+                                        .toString(pizzaRestaurant.getCustomerByIndex(dataLine).getDeliveryDistance());
+                                tableModel.setValueAt(distance, dataLine, dataSegment);
+                            } catch (CustomerException e1) {
+                                // TODO Auto-generated catch block
+                                e1.printStackTrace();
+                            }
                         default:
                             break;
                         }
@@ -334,6 +335,15 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
                                 e1.printStackTrace();
                             }
                             break;
+                        case FIFTH_SEGMENT:
+                            try {
+                                String orderProfit = Double
+                                        .toString(pizzaRestaurant.getPizzaByIndex(dataLine).getOrderProfit());
+                                tableModel.setValueAt(orderProfit, dataLine, dataSegment);
+                            } catch (PizzaException e1) {
+                                // TODO Auto-generated catch block
+                                e1.printStackTrace();
+                            }
                         default:
                             break;
                         }
@@ -348,31 +358,9 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 
         if (src == btnCalc) {
             if (filterString.contentEquals("Customer Info")) {
-                for (int dataLine = 0; dataLine < pizzaRestaurant.getNumCustomerOrders(); dataLine++) {
-
-                    try {
-                        String distance = Double
-                                .toString(pizzaRestaurant.getCustomerByIndex(dataLine).getDeliveryDistance());
-                        tableModel.setValueAt(distance, dataLine, SIXTH_SEGMENT);
-                    } catch (CustomerException e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
-                    }
-
-                }
+                totals.setText("Total deliver distance: " + pizzaRestaurant.getTotalDeliveryDistance());
             } else if (filterString.contentEquals("Pizza Info")) {
-                for (int dataLine = 0; dataLine < pizzaRestaurant.getNumPizzaOrders(); dataLine++) {
-
-                    try {
-                        String orderProfit = Double
-                                .toString(pizzaRestaurant.getPizzaByIndex(dataLine).getOrderProfit());
-                        tableModel.setValueAt(orderProfit, dataLine, FIFTH_SEGMENT);
-                    } catch (PizzaException e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
-                    }
-
-                }
+                totals.setText("Total profit: " + pizzaRestaurant.getTotalProfit());
             }
             dataDisplay.setModel(tableModel);
             pnlDisplay.updateUI();
