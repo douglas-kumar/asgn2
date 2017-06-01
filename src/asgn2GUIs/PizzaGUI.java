@@ -47,7 +47,7 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
     private static final int SIXTH_SEGMENT = 5, FIFTH_SEGMENT = 4, FOURTH_SEGMENT = 3, THIRD_SEGMENT = 2,
             SECOND_SEGMENT = 1, FIRST_SEGMENT = 0, MAX_DATA_SEGMENT = 9, FONT_SIZE = 12;
     private static final long serialVersionUID = -7031008862559936404L;
-    public static final int WIDTH = 700, HEIGHT = 600;
+    public static final int WIDTH = 700, HEIGHT = 600, TABLE_HEIGHT = 50, TABLE_WIDTH = 500;
     private PizzaRestaurant pizzaRestaurant;
     private JButton btnLoad, btnDisplayInfo, btnCalc, btnReset;
     private JPanel pnlDisplay, pnlTop, pnlBottom, pnlRight, pnlLeft;
@@ -110,8 +110,8 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
         tableModel = new DefaultTableModel();
 
         dataDisplay = new JTable(tableModel);
-        dataDisplay.setPreferredScrollableViewportSize(new Dimension(500, 50)); // add
-                                                                                // constants
+        dataDisplay.setPreferredScrollableViewportSize(new Dimension(TABLE_WIDTH, TABLE_HEIGHT));
+                                                                                
         dataDisplay.setFillsViewportHeight(true);
         scroller = new JScrollPane(dataDisplay);
         add(scroller);
@@ -179,7 +179,6 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
         createGUI();
     }
 
-    // Still implementing - not finished
     @Override
     public void actionPerformed(ActionEvent e) {
         int returnVal;
@@ -282,8 +281,6 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
                     }
                 } // end of first for loop
 
-                // th.repaint();
-
             } else if (filterString.contentEquals("Pizza Info")) {
 
                 tableModel.setColumnIdentifiers(columnNamesPizza);
@@ -375,7 +372,7 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
             }
             dataDisplay.setModel(tableModel);
             pnlDisplay.updateUI();
-            btnCalc.setEnabled(false); // Disable when pressed?
+            btnCalc.setEnabled(false);
             btnDisplayInfo.setEnabled(true);
         }
 
@@ -386,8 +383,6 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
             btnLoad.setEnabled(true);
             tableModel = new DefaultTableModel();
             dataDisplay.setModel(tableModel);
-            // dataDisplay.removeAll(); // Decide if better method \/
-            // clearTable(tableModel); // Decide if better method ^
             scroller.removeAll();
             this.remove(scroller);
 

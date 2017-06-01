@@ -40,6 +40,7 @@ public class VegetarianPizza extends Pizza {
 		listOfToppings.add(PizzaTopping.EGGPLANT);
 		listOfToppings.add(PizzaTopping.MUSHROOM);
 		listOfToppings.add(PizzaTopping.CAPSICUM);
+		this.calculateCostPerPizza();
 	}
 
 }

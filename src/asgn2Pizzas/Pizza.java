@@ -84,14 +84,7 @@ public abstract class Pizza  {
 	 * @return The amount that an individual pizza is sold to the customer.
 	 */
 	public final double getPricePerPizza(){
-		switch (type) {
-		case "Margherita":
-			return (price = MARGHERITA_PRICE);
-		case "Vegetarian":
-			return (price = VEGETARIAN_PRICE);
-		default:
-			return (price = MEAT_LOVERS_PRICE);
-		}
+		return price;
 	}
 
 	/**
@@ -99,7 +92,7 @@ public abstract class Pizza  {
 	 * @return The amount that the entire order costs to make, taking into account the type and quantity of pizzas. 
 	 */
 	public final double getOrderCost() {
-		return (this.getCostPerPizza() * quantity);
+		return (costs * quantity);
 	}
 	
 	/**
@@ -126,8 +119,8 @@ public abstract class Pizza  {
 	 * @return Returns  true if the instance of Pizza contains the specified topping and false otherwise.
 	 */
 	public final boolean containsTopping(PizzaTopping topping) {
-		for (PizzaTopping toppingX : listOfToppings){
-			if (topping.equals(toppingX)) {
+		for (PizzaTopping toppingIndex : listOfToppings){
+			if (topping.equals(toppingIndex)) {
 				return true;
 			}
 		}
