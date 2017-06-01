@@ -107,10 +107,27 @@ public class CustomerFactoryTests {
 	}
 	
 	@Test
-	public void TwoDiffCustomersWithSameXXXAreProperlySame() throws CustomerException {
-		//TODO: assertSame(CustomerFactory.getCustomer("DVC", "Mark", "0447539207", 3, 4).getName(), 
-				//CustomerFactory.getCustomer("DVC", "Mark", "0447539207", 3, 4).getName());
-		
+	public void TwoDiffCustomersWithSameXLocationAreProperlySame() throws CustomerException {
+		assertSame(CustomerFactory.getCustomer("DVC", "Mark", "0447539207", 3, 4).getLocationX(), 
+				CustomerFactory.getCustomer("DVC", "Mark", "0447539207", 3, 4).getLocationX());
+	}
+	
+	@Test
+	public void TwoDiffCustomersWithSameYLocationAreProperlySame() throws CustomerException {
+		assertSame(CustomerFactory.getCustomer("DVC", "Mark", "0447539207", 3, 4).getLocationY(), 
+				CustomerFactory.getCustomer("DVC", "Mark", "0447539207", 3, 4).getLocationY());
+	}
+	
+	@Test
+	public void TwoDiffCustomersWithSameDelivDistanceLocationAreProperlySame() throws CustomerException {
+		assertSame(CustomerFactory.getCustomer("DVC", "Mark", "0447539207", 3, 4).getDeliveryDistance(), 
+				CustomerFactory.getCustomer("DVC", "Mark", "0447539207", 3, 4).getDeliveryDistance());
+	}
+	
+	@Test
+	public void TwoDiffCustomersWithSameTypeAreProperlySame() throws CustomerException {
+		assertSame(CustomerFactory.getCustomer("DVC", "Mark", "0447539207", 3, 4).getCustomerType(), 
+				CustomerFactory.getCustomer("DVC", "Mark", "0447539207", 3, 4).getCustomerType());
 	}
 
 	// ----------- Exception Testing -------------

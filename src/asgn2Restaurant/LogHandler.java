@@ -101,7 +101,6 @@ public class LogHandler {
      */
     public static ArrayList<Pizza> populatePizzaDataset(String filename) throws PizzaException, LogHandlerException {
 
-        // PizzaFactory pizzaFactory = new PizzaFactory();
         ArrayList<Pizza> listOfPizzas = new ArrayList<Pizza>();
 
         Path file = FileSystems.getDefault().getPath("logs", filename);

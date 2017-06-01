@@ -22,7 +22,7 @@ public class CustomerTests {
 	private DriverDeliveryCustomer john, mark, terry, 
 			nonInstanciatedJohn, invalidJohn;
 	private DroneDeliveryCustomer jill, mary, invalidJill, george;
-	private PickUpCustomer tom;
+	private PickUpCustomer tom, hank;
 	private String expectedString, notSameString;
 	private int expectedResult;
 	private double expectedDistance;
@@ -34,11 +34,13 @@ public class CustomerTests {
 		terry = new DriverDeliveryCustomer("Terry", "0123456789", -10, 10);
 		jill = new DroneDeliveryCustomer("Jill", "0431431414", 5, 8);
 		mary = new DroneDeliveryCustomer("Mary", "0453920960", -9, 0);
+		hank = new PickUpCustomer("Hank", "0123456789", -0, 0);
 	}
 	
 	// ----------------------------------------------------
 	// ---------- DriverDeliveryCustomer Testing ----------
 	// ----------------------------------------------------
+	
 	@Test
 	public void instanciatedCustomerIsNotNull() {
 		assertNotNull(john);
@@ -55,8 +57,6 @@ public class CustomerTests {
 		assertEquals(expectedString, john.getName());
 	}
 	
-	// Check to make sure it is okay to enter lower-case characters?
-	// name.charAt(0).toUpperCase()?
 	@Test
 	public void getFirstNameIsCaseSensitive() {
 		notSameString = "john";
@@ -119,7 +119,8 @@ public class CustomerTests {
 	
 	@Test
 	public void getDeliveryDistanceIsCorrectWithNegativeNums() {
-		expectedDistance = 9; // |0-(-6)| + |0-(-3)| = 9
+		// |0-(-6)| + |0-(-3)| = 9
+		expectedDistance = 9;
 		assertEquals(expectedDistance, mark.getDeliveryDistance(), DELTA);
 	}
 	
@@ -127,6 +128,7 @@ public class CustomerTests {
 	public void checkSameInstantiationIsActuallyTheSame() {
 		assertSame(john, john);
 	}
+	
 	@Test
 	public void checkDiffInstantiationsOfSameClassAreActuallyDiffObj() {
 		assertNotSame(john, mark);
@@ -160,12 +162,6 @@ public class CustomerTests {
 	@Test
 	public void checkDelivDistAreDiffBetweenTwoInstantiations() {
 		assertNotSame(john.getDeliveryDistance(), mark.getDeliveryDistance());
-	}
-	
-	// ------- Mixed Classes Testing ------------
-	@Test
-	public void checkTypesAreDiffBetweenTwoInstantiationsOfDiffClassObj() {
-		assertNotSame(john.getCustomerType(), jill.getCustomerType());
 	}
 	
 	// ------ Exception Testing for DriverDeliveryCustomer class -----	 	
@@ -293,6 +289,20 @@ public class CustomerTests {
 		assertEquals(expectedDistance, jill.getDeliveryDistance(), DELTA);
 	}
 	
+	@Test
+	public void XCoordsAreNegativeZeroAndValid() throws CustomerException {
+		expectedResult = 0;
+		tom = new PickUpCustomer("Tom", "0447539207", -0, -0);
+		assertEquals(expectedResult, tom.getLocationX());
+	}
+	
+	@Test
+	public void YCoordsAreNegativeZeroAndValid() throws CustomerException {
+		expectedResult = 0;
+		tom = new PickUpCustomer("Tom", "0447539207", -0, -0);
+		assertEquals(expectedResult, tom.getLocationY());
+	}
+	
 	// ---------------- Exception Testing for DroneDeliveryCustomer class ---------- 
 	
 	// Drone delivery customers must not have x AND y coords of 0
@@ -363,8 +373,32 @@ public class CustomerTests {
 	}
 	
 	// ---------------------------------------------------
-	// ---------- PickUpCustomer Testing ----------
+	// ---------- PickUpCustomer Testing -----------------
 	// ---------------------------------------------------
+	
+	@Test
+	public void getNamePickUpWorking() {
+		expectedString = "Hank";
+		assertEquals(expectedString, hank.getName());
+	}
+	
+	@Test
+	public void getMobNumPickUpWorking() {
+		expectedString = "0123456789";
+		assertEquals(expectedString, hank.getMobileNumber());
+	}
+	
+	@Test
+	public void getXLocationPickUp() {
+		expectedResult = 0;
+		assertEquals(expectedResult, hank.getLocationX());
+	}
+	
+	@Test
+	public void getYLocationPickUp() {
+		expectedResult = 0;
+		assertEquals(expectedResult, hank.getLocationY());
+	}
 	
 	//-----------Exception testing for PickUpCustomer--------
 	
@@ -396,13 +430,37 @@ public class CustomerTests {
 	}
 	
 	@Test(expected=CustomerException.class)
-	public void exceptionThrownWhen() throws CustomerException {
-		tom = new PickUpCustomer("Tom", "0447539207", 0, 0);
+	public void exceptionThrownWhenNumGreaterThanTenDigits() throws CustomerException {
+		tom = new PickUpCustomer("Tom", "04475392077", 0, 0);
 	}
 	
 	@Test(expected=CustomerException.class)
-	public void exceptionThrownWhenXXX() throws CustomerException {
-		tom = new PickUpCustomer("Tom", "0447539207", 0, 0);
+	public void exceptionThrownWhenLessThanTenDigits() throws CustomerException {
+		tom = new PickUpCustomer("Tom", "044753920", 0, 0);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhenNumDoesNotStartWithZero() throws CustomerException {
+		tom = new PickUpCustomer("Tom", "4447539207", 0, 0);
+	}
+	
+	// ---------------------------------------------------
+	// ------------- Mixed Classes Testing ---------------
+	// ---------------------------------------------------
+	
+	@Test
+	public void checkTypesAreDiffBetweenDroneAndDriverClasses() {
+		assertNotSame(john.getCustomerType(), jill.getCustomerType());
+	}
+	
+	@Test
+	public void checkTypesAreDiffBetweenDroneAndPickUpClasses() {
+		assertNotSame(hank.getCustomerType(), jill.getCustomerType());
+	}
+	
+	@Test
+	public void checkTypesAreDiffBetweenDriverAndPickUpClasses() {
+		assertNotSame(hank.getCustomerType(), john.getCustomerType());
 	}
 	
 }

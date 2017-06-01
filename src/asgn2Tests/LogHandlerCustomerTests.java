@@ -102,6 +102,13 @@ public class LogHandlerCustomerTests {
 		assertEquals(expectedResult, logFile.size());
 	}
 	
+	@Test
+	public void createCustomerInEmptyFileWorks() throws CustomerException, LogHandlerException {
+		// Empty Text File to Insert
+		LogHandler.createCustomer("18:00:00,18:20:00,John Smith,0447539207,DVC,5,-4,PZV,4");
+		LogHandler.populateCustomerDataset("empty.txt");
+	}
+	
 	// -------------------- Exception Testing ------------------------------
 	
 	@Test(expected=LogHandlerException.class)
