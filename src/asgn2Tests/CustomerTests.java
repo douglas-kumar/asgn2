@@ -288,7 +288,8 @@ public class CustomerTests {
 	
 	@Test
 	public void getDeliveryDistanceIsCorrectForDrone() {
-		expectedDistance = 9.433981132; // sqrt( ((0-5)^2) + ((0-8)^2) ) = 9.433981132
+		 // sqrt( ((0-5)^2) + ((0-8)^2) ) = 9.433981132, rounded = 9.43
+		expectedDistance = 9.43;
 		assertEquals(expectedDistance, jill.getDeliveryDistance(), DELTA);
 	}
 	
@@ -392,6 +393,11 @@ public class CustomerTests {
 	@Test(expected=CustomerException.class)
 	public void exceptionThrownWhenNameIsWhitespace() throws CustomerException {
 		tom = new PickUpCustomer("        ", "0447539207", 0, 0);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhen() throws CustomerException {
+		tom = new PickUpCustomer("Tom", "0447539207", 0, 0);
 	}
 	
 	@Test(expected=CustomerException.class)

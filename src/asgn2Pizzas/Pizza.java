@@ -2,9 +2,6 @@ package asgn2Pizzas;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Collections;
-
-
 import asgn2Exceptions.PizzaException;
 
 
@@ -18,8 +15,6 @@ import asgn2Exceptions.PizzaException;
  *
  */
 public abstract class Pizza  {
-	private static final double MARGHERITA_PRICE = 8, 
-			VEGETARIAN_PRICE = 10, MEAT_LOVERS_PRICE = 12;
 	private int quantity;
 	private double price, costs;
 	private LocalTime orderTime, deliveryTime;
@@ -51,10 +46,8 @@ public abstract class Pizza  {
 			throw new PizzaException("Cannot order after 11:00pm");
 		if (deliveryTime.isAfter(orderTime.plusHours(1))) 
 			throw new PizzaException("Pizza has expired, cannot be delivered after 1 hour of order time");
-		if (deliveryTime.isBefore(orderTime))
-			throw new PizzaException("Cannot possibly deliver before the order");
 		if (deliveryTime.isBefore(orderTime.plusMinutes(10)))
-			throw new PizzaException("Cannot deliver pizza ten minutes before order time");
+			throw new PizzaException("Cannot deliver pizza ten minutes or more before order time");
 		
 		this.quantity = quantity;
 		this.orderTime = orderTime;
