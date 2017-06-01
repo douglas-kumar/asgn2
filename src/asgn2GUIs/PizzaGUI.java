@@ -389,8 +389,13 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
             // dataDisplay.removeAll(); // Decide if better method \/
             // clearTable(tableModel); // Decide if better method ^
             scroller.removeAll();
+            this.remove(scroller);
+
+            scroller = new JScrollPane(dataDisplay);
+            this.add(scroller);
 
             pnlDisplay.updateUI();
+            this.repaint();
 
             pizzaRestaurant.resetDetails();
         }
