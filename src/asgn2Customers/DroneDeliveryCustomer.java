@@ -14,6 +14,8 @@ import asgn2Exceptions.CustomerException;
  */
 public class DroneDeliveryCustomer extends Customer {
 
+    private static final double DECIMALS = 100.0;
+
     /**
      * This class represents a customer of the Pizza Palace restaurant that has
      * chosen to have their pizza delivered by a drone. A CustomerException is
@@ -44,7 +46,7 @@ public class DroneDeliveryCustomer extends Customer {
         super(name, mobileNumber, locationX, locationY, "Drone Delivery");
         // Person A edit - Calum
         if (locationX == 0 && locationY == 0)
-        	throw new CustomerException("Cannot deliver to the same location as the restaurant");
+            throw new CustomerException("Cannot deliver to the same location as the restaurant");
     }
 
     /**
@@ -57,8 +59,9 @@ public class DroneDeliveryCustomer extends Customer {
      */
     @Override
     public double getDeliveryDistance() {
-        double euclideanDistance = Math.sqrt((this.getLocationX()*this.getLocationX()) + (this.getLocationY()*this.getLocationY()));
-        return Math.round(euclideanDistance * 100.0) / 100.0;
+        double euclideanDistance = Math
+                .sqrt((this.getLocationX() * this.getLocationX()) + (this.getLocationY() * this.getLocationY()));
+        return Math.round(euclideanDistance * DECIMALS) / DECIMALS;
     }
 
 }

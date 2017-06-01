@@ -111,7 +111,7 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 
         dataDisplay = new JTable(tableModel);
         dataDisplay.setPreferredScrollableViewportSize(new Dimension(TABLE_WIDTH, TABLE_HEIGHT));
-                                                                                
+
         dataDisplay.setFillsViewportHeight(true);
         scroller = new JScrollPane(dataDisplay);
         add(scroller);
@@ -182,14 +182,20 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
         if (src == btnLoad) {
             returnVal = fileChooser.showOpenDialog(PizzaGUI.this);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
-                btnDisplayInfo.setEnabled(true);
-                btnReset.setEnabled(true);
-                btnLoad.setEnabled(false);
                 logFile = fileChooser.getSelectedFile();
                 try {
-                    pizzaRestaurant.processLog(logFile.getName());
-                    JOptionPane.showMessageDialog(this, "Log file loaded successfully", "Load Success",
-                            JOptionPane.INFORMATION_MESSAGE);
+
+                    if (pizzaRestaurant.processLog(logFile.getName())) {
+                        JOptionPane.showMessageDialog(this, "Log file loaded successfully", "Load Success",
+                                JOptionPane.INFORMATION_MESSAGE);
+                        btnDisplayInfo.setEnabled(true);
+                        btnReset.setEnabled(true);
+                        btnLoad.setEnabled(false);
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Cannot load file type, please choose a .txt file",
+                                "Load Failed", JOptionPane.INFORMATION_MESSAGE);
+                    }
+
                 } catch (CustomerException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();
@@ -382,6 +388,8 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
             this.add(scroller);
 
             pnlDisplay.updateUI();
+            totals.setText("");
+
             this.repaint();
 
             pizzaRestaurant.resetDetails();

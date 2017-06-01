@@ -24,6 +24,8 @@ import asgn2Pizzas.Pizza;
  */
 public class PizzaRestaurant {
 
+    private static final double DECIMALS = 100.0;
+
     private ArrayList<Customer> customers;
     private ArrayList<Pizza> pizzas;
 
@@ -78,15 +80,24 @@ public class PizzaRestaurant {
      */
     public boolean processLog(String filename) throws CustomerException, PizzaException, LogHandlerException {
         boolean success = false;
+
         try {
             this.customers = LogHandler.populateCustomerDataset(filename);
             this.pizzas = LogHandler.populatePizzaDataset(filename);
-        } finally {
             success = true;
+        } catch (LogHandlerException e) {
+            e.printStackTrace();
         }
 
         return success;
     }
+    /*
+     * boolean success = false; try { this.customers =
+     * LogHandler.populateCustomerDataset(filename); this.pizzas =
+     * LogHandler.populatePizzaDataset(filename); } finally { success = true; }
+     * 
+     * return success; }
+     */
 
     /**
      * Returns the Customer object contained at the specified index of the
@@ -154,7 +165,7 @@ public class PizzaRestaurant {
         for (Customer customer : customers) {
             totalDistance += customer.getDeliveryDistance();
         }
-        return totalDistance;
+        return Math.round(totalDistance * DECIMALS) / DECIMALS;
     }
 
     /**
@@ -170,7 +181,7 @@ public class PizzaRestaurant {
             totalProfit += pizza.getOrderProfit();
         }
 
-        return totalProfit;
+        return Math.round(totalProfit * DECIMALS) / DECIMALS;
     }
 
     /**
