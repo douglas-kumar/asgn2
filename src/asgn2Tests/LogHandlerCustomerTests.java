@@ -16,7 +16,7 @@ import asgn2Customers.Customer;
 /**
  * A class that tests the methods relating to the creation of Customer objects in the asgn2Restaurant.LogHander class.
  *
- * @author Person A
+ * @author Person A - Calum
  */
 public class LogHandlerCustomerTests {
 	private static final double DELTA = 1e-15;
