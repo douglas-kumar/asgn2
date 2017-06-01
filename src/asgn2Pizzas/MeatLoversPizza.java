@@ -40,6 +40,7 @@ public class MeatLoversPizza extends Pizza {
 		listOfToppings.add(PizzaTopping.BACON);
 		listOfToppings.add(PizzaTopping.PEPPERONI);
 		listOfToppings.add(PizzaTopping.SALAMI);
+		this.calculateCostPerPizza();
 	}
 
 }
