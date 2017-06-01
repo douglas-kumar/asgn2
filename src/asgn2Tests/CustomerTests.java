@@ -21,7 +21,8 @@ public class CustomerTests {
 	private static final double DELTA = 1e-15;
 	private DriverDeliveryCustomer john, mark, terry, 
 			nonInstanciatedJohn, invalidJohn;
-	private DroneDeliveryCustomer jill, mary, invalidJill;
+	private DroneDeliveryCustomer jill, mary, invalidJill, george;
+	private PickUpCustomer tom;
 	private String expectedString, notSameString;
 	private int expectedResult;
 	private double expectedDistance;
@@ -169,6 +170,13 @@ public class CustomerTests {
 	
 	// ------ Exception Testing for DriverDeliveryCustomer class -----	 	
 	
+	// Driver delivery customers must not have x and y coords of 0
+	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhenXAndYCoordsAreZeroDriver() throws CustomerException {
+		invalidJohn = new DriverDeliveryCustomer("John", "0447539207", 0, 0);
+	}
+	
+	// Inherited exceptions from Customer class
 	@Test(expected=CustomerException.class)
 	public void invalidInstanciationWithAllArgs() throws CustomerException {
 		invalidJohn = new DriverDeliveryCustomer("", "", 0, 0);
@@ -284,5 +292,111 @@ public class CustomerTests {
 		assertEquals(expectedDistance, jill.getDeliveryDistance(), DELTA);
 	}
 	
+	// ---------------- Exception Testing for DroneDeliveryCustomer class ---------- 
+	
+	// Drone delivery customers must not have x AND y coords of 0
+	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhenXandYCoordsAreZero() throws CustomerException {
+		george = new DroneDeliveryCustomer("George", "0447539207", 0, 0);
+	}
+	
+	// Inherited exceptions from Customer class
+	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhenEmptyName() throws CustomerException {
+		george = new DroneDeliveryCustomer("", "0447539207", 3, 4);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhenWhitespaceName() throws CustomerException {
+		george = new DroneDeliveryCustomer("       ", "0447539207", 3, 4);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhenNameOverTwentyChars() throws CustomerException {
+		george = new DroneDeliveryCustomer("Geeeeoooooorrrrrgggggeeeeeeee", "0447539207", 3, 4);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhenEmptyNum() throws CustomerException {
+		george = new DroneDeliveryCustomer("George", "", 3, 4);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhenNoZeroFirstInNum() throws CustomerException {
+		george = new DroneDeliveryCustomer("George", "4475392071", 3, 4);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhenNumUnderTenDigits() throws CustomerException {
+		george = new DroneDeliveryCustomer("George", "044753920", 3, 4);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhenNumOverTenDigits() throws CustomerException {
+		george = new DroneDeliveryCustomer("George", "04475392077", 3, 4);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhenXValueTooHighWithNegative() throws CustomerException {
+		george = new DroneDeliveryCustomer("George", "0447539207", -11, 4);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhenXValueTooHigh() throws CustomerException {
+		george = new DroneDeliveryCustomer("George", "0447539207", 11, 4);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhenYValueTooHighWithNegative() throws CustomerException {
+		george = new DroneDeliveryCustomer("George", "0447539207", -1, 11);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhenXNegativeAndYValueTooHigh() throws CustomerException {
+		george = new DroneDeliveryCustomer("George", "0447539207", -11, 11);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhenXAndYNegativeValueTooHigh() throws CustomerException {
+		george = new DroneDeliveryCustomer("George", "0447539207", 11, -11);
+	}
+	
+	// ---------------------------------------------------
+	// ---------- PickUpCustomer Testing ----------
+	// ---------------------------------------------------
+	
+	//-----------Exception testing for PickUpCustomer--------
+	
+	// Pick up customer must have x and y coords as 0
+	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhenXCoordsAreNotZero() throws CustomerException {
+		tom = new PickUpCustomer("Tom", "0447539207", 0, 4);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhenYCoordsAreNotZero() throws CustomerException {
+		tom = new PickUpCustomer("Tom", "0447539207", -4, 0);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhenXAndYCoordsAreNotZero() throws CustomerException {
+		tom = new PickUpCustomer("Tom", "0447539207", -4, 4);
+	}
+	
+	// Inherited exceptions from Customer class
+	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhenNameHigherThanTwentyChars() throws CustomerException {
+		tom = new PickUpCustomer("Tooooooommmmmmmmmmmmmm", "0447539207 ", 0, 0);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhenNameIsWhitespace() throws CustomerException {
+		tom = new PickUpCustomer("        ", "0447539207", 0, 0);
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhenXXX() throws CustomerException {
+		tom = new PickUpCustomer("Tom", "0447539207", 0, 0);
+	}
 	
 }
