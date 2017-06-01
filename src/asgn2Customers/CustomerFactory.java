@@ -14,9 +14,7 @@ import asgn2Exceptions.CustomerException;
 
 public class CustomerFactory {
 
-    private static final String PICKUP_CUSTOMER = "PUC";
-    private static final String DRIVER_DELIVERY = "DVC";
-    private static final String DRONE_DELIVERY = "DNC";
+    private static final String PICKUP_CUSTOMER = "PUC", DRIVER_DELIVERY = "DVC", DRONE_DELIVERY = "DNC";
 
     /**
      * A method that uses the Factory Method pattern to produce an instance of

@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +29,15 @@ import asgn2Pizzas.PizzaFactory;
  */
 public class LogHandler {
     private static final int ITEMS_PER_LINE = 9;
+    private static final int ORDER_TIME = 0;
+    private static final int DELIVERY_TIME = 1;
+    private static final int NAME = 2;
+    private static final int MOBILE_NUMBER = 3;
+    private static final int CUSTOMER_CODE = 4;
+    private static final int LOCATION_X = 5;
+    private static final int LOCATION_Y = 6;
+    private static final int PIZZA_CODE = 7;
+    private static final int QUANTITY = 8;
 
     /**
      * Returns an ArrayList of Customer objects from the information contained
@@ -143,16 +153,16 @@ public class LogHandler {
         }
 
         try {
-            locationX = Integer.parseInt(data[5]);
-            locationY = Integer.parseInt(data[6]);
+            locationX = Integer.parseInt(data[LOCATION_X]);
+            locationY = Integer.parseInt(data[LOCATION_Y]);
         } catch (NumberFormatException e) {
             throw new LogHandlerException(
-                    "Customer X,Y location values could not be parsed as integer, check string value in read file");
+                    "Customer X,Y location values could not be parsed as integer, check value in log file");
         }
 
-        customerCode = data[4];
-        name = data[2];
-        mobileNumber = data[3];
+        customerCode = data[CUSTOMER_CODE];
+        name = data[NAME];
+        mobileNumber = data[MOBILE_NUMBER];
 
         Customer customer;
         customer = CustomerFactory.getCustomer(customerCode, name, mobileNumber, locationX, locationY);
@@ -185,11 +195,16 @@ public class LogHandler {
 
         if (data.length != ITEMS_PER_LINE)
             throw new LogHandlerException("log file does not contain correct amount of data or valid data");
-
-        quantity = Integer.parseInt(data[8]);
-        pizzaCode = data[7];
-        orderTime = LocalTime.parse(data[0], DateTimeFormatter.ISO_TIME);
-        deliveryTime = LocalTime.parse(data[1], DateTimeFormatter.ISO_TIME);
+        try {
+            quantity = Integer.parseInt(data[QUANTITY]);
+            orderTime = LocalTime.parse(data[ORDER_TIME], DateTimeFormatter.ISO_TIME);
+            deliveryTime = LocalTime.parse(data[DELIVERY_TIME], DateTimeFormatter.ISO_TIME);
+        } catch (NumberFormatException eN) {
+            throw new LogHandlerException("Order quantity could not be parsed as integer, check value in log file");
+        } catch (DateTimeParseException eD) {
+            throw new LogHandlerException("Times could not be parsed as integer, check values in log file");
+        }
+        pizzaCode = data[PIZZA_CODE];
 
         pizza = PizzaFactory.getPizza(pizzaCode, quantity, orderTime, deliveryTime);
         return pizza;

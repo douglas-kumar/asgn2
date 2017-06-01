@@ -57,6 +57,11 @@ public class LogHandlerPizzaTests {
         assertEquals(5, pizzas.get(74).getQuantity());
     }
 
+    @Test
+    public void readFromEmptyLog() throws PizzaException, LogHandlerException {
+        pizzas = LogHandler.populatePizzaDataset("empty.txt");
+    }
+
     @Test(expected = LogHandlerException.class)
     public void makePizzaWithBadDataLine() throws PizzaException, LogHandlerException {
         pizza1 = LogHandler.createPizza("19:10:00,19:40:00,Joe Dolce,DVC,3,6,PZV,3");
