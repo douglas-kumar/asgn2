@@ -86,18 +86,11 @@ public class PizzaRestaurant {
             this.pizzas = LogHandler.populatePizzaDataset(filename);
             success = true;
         } catch (LogHandlerException e) {
-            e.printStackTrace();
+          e.getMessage();
         }
 
         return success;
     }
-    /*
-     * boolean success = false; try { this.customers =
-     * LogHandler.populateCustomerDataset(filename); this.pizzas =
-     * LogHandler.populatePizzaDataset(filename); } finally { success = true; }
-     * 
-     * return success; }
-     */
 
     /**
      * Returns the Customer object contained at the specified index of the

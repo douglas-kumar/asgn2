@@ -73,6 +73,7 @@ public class LogHandler {
         }
 
         for (String customer : customerList) {
+        	// TODO: if (customerList.size() > customers.size()) throw new LogHandlerException("Index is out of range");
             Customer next;
             next = createCustomer(customer);
             customers.add(next);

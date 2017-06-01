@@ -54,6 +54,25 @@ public class RestaurantCustomerTests {
 	}
 	
 	@Test
+	public void returnFalseWhenInvalidFile() throws LogHandlerException, 
+	CustomerException, PizzaException {
+		assertFalse(pr.processLog("Invalid.txt"));
+	}
+	
+	@Test
+	public void returnFalseWhenInvalidFileFormat() throws LogHandlerException, 
+	CustomerException, PizzaException {
+		assertFalse(pr.processLog("diffFormatLog.pdf"));
+	}
+	
+	@Test
+	public void returnFalseWhenTextFileNotInLogFolder() throws LogHandlerException, 
+	CustomerException, PizzaException {
+		// On my Desktop Directory
+		assertFalse(pr.processLog("story.txt"));
+	}
+	
+	@Test
 	public void testNumOfOrdersIsZeroWithoutProcessingLog() {
 		expectedResult = 0;
 		assertEquals(expectedResult, pr.getNumCustomerOrders());
@@ -128,12 +147,10 @@ public class RestaurantCustomerTests {
 	@Test
 	public void checkCustomerAtSameIndexIsSameCustomer() throws CustomerException, 
 	PizzaException, LogHandlerException {
-		// TO DO:
 		pr.processLog(FIRST_LOG_FILE);
 		assertSame(pr.getCustomerByIndex(FIRST_LINE), 
 				pr.getCustomerByIndex(FIRST_LINE));
 	}
-	
 	
 	@Test
 	public void getsCorrectTotalDeliveryDist() throws CustomerException, 
@@ -144,19 +161,7 @@ public class RestaurantCustomerTests {
 		assertEquals(expectedCalc, pr.getTotalDeliveryDistance(), DELTA);
 	}
 	
-	// ------------------ Exception Testing --------------------------
-	
-	@Test(expected=LogHandlerException.class)
-	public void exceptionThrownWhenInvalidFile() throws LogHandlerException, 
-	CustomerException, PizzaException {
-		pr.processLog("Invalid.txt");
-	}
-	
-	@Test(expected=LogHandlerException.class)
-	public void exceptionThrownWhenTextFileNotInLogFolder() throws LogHandlerException, 
-	CustomerException, PizzaException {
-		pr.processLog("story.txt"); // On my Desktop Directory
-	}
+	// ------------------ Exception Testing --------------------------	
 	
 	@Test(expected=CustomerException.class)
 	public void exceptionThrownWhenCustomerIndexTooHigh() throws CustomerException, 
