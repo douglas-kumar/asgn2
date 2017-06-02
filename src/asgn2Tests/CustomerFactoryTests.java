@@ -15,6 +15,7 @@ import org.junit.Test;
  *
  */
 public class CustomerFactoryTests {
+	private static final double DELTA = 1e-15;
 	private static final String PICKUP_CUSTOMER = "PUC", 
 			DRIVER_DELIVERY = "DVC", DRONE_DELIVERY = "DNC";
 	private static int expectedNum;
@@ -119,15 +120,69 @@ public class CustomerFactoryTests {
 	}
 	
 	@Test
-	public void TwoDiffCustomersWithSameDelivDistanceLocationAreProperlySame() throws CustomerException {
-		assertSame(CustomerFactory.getCustomer("DVC", "Mark", "0447539207", 3, 4).getDeliveryDistance(), 
-				CustomerFactory.getCustomer("DVC", "Mark", "0447539207", 3, 4).getDeliveryDistance());
-	}
-	
-	@Test
 	public void TwoDiffCustomersWithSameTypeAreProperlySame() throws CustomerException {
 		assertSame(CustomerFactory.getCustomer("DVC", "Mark", "0447539207", 3, 4).getCustomerType(), 
 				CustomerFactory.getCustomer("DVC", "Mark", "0447539207", 3, 4).getCustomerType());
+	}
+	
+	@Test
+	public void TwoDiffCustomerTypeAreNotSameObjDNCAndDVC() throws CustomerException {
+		assertNotSame(CustomerFactory.getCustomer("DNC", "Mark", "0447539207", 3, 4).getCustomerType(), 
+				CustomerFactory.getCustomer("DVC", "Mark", "0447539207", 3, 4).getCustomerType());
+	}
+	
+	@Test
+	public void TwoDiffCustomerTypeAreNotSameObjDNCAndPUC() throws CustomerException {
+		assertNotSame(CustomerFactory.getCustomer("DNC", "Mark", "0447539207", 3, 4).getCustomerType(), 
+				CustomerFactory.getCustomer("PUC", "Mark", "0447539207", 0, 0).getCustomerType());
+	}
+	
+	@Test
+	public void TwoDiffCustomerTypeAreNotSameObjDVCAndPUC() throws CustomerException {
+		assertNotSame(CustomerFactory.getCustomer("DVC", "Mark", "0447539207", 3, 4).getCustomerType(), 
+				CustomerFactory.getCustomer("PUC", "Mark", "0447539207", 0, 0).getCustomerType());
+	}
+	
+	@Test
+	public void TwoDiffCustomerOfSameTypeDVCHaveSameDelivDist() throws CustomerException {
+		assertEquals(CustomerFactory.getCustomer("DVC", "Mark", "0447539207", 3, -4).getDeliveryDistance(),
+				CustomerFactory.getCustomer("DVC", "Mark", "0447539207", -3, -4).getDeliveryDistance(), DELTA);
+	}
+	
+	@Test
+	public void TwoDiffCustomerOfSameTypeDNCHaveSameDelivDist() throws CustomerException {
+		assertEquals(CustomerFactory.getCustomer("DNC", "Mark", "0447539207", 3, -4).getDeliveryDistance(),
+				CustomerFactory.getCustomer("DNC", "Mark", "0447539207", -3, -4).getDeliveryDistance(), DELTA);
+	}
+	
+	@Test
+	public void TwoDiffCustomerOfSameTypePUCHaveSameDelivDist() throws CustomerException {
+		assertEquals(CustomerFactory.getCustomer("PUC", "Mark", "0447539207", 0, -0).getDeliveryDistance(),
+				CustomerFactory.getCustomer("PUC", "Mark", "0447539207", -0, -0).getDeliveryDistance(), DELTA);
+	}
+	
+	@Test
+	public void TwoDiffCustomerOfDiffTypePUCAndDVCHaveDiffDelivDist() throws CustomerException {
+		assertNotEquals(CustomerFactory.getCustomer("PUC", "Mark", "0447539207", 0, -0).getDeliveryDistance(),
+				CustomerFactory.getCustomer("DVC", "Mark", "0447539207", -0, 4).getDeliveryDistance(), DELTA);
+	}
+	
+	@Test
+	public void TwoDiffCustomerOfDiffTypeDNCAndDVCHaveDiffDelivDist() throws CustomerException {
+		assertNotEquals(CustomerFactory.getCustomer("DNC", "Mark", "0447539207", -5, 4).getDeliveryDistance(),
+				CustomerFactory.getCustomer("DVC", "Mark", "0447539207", -5, 4).getDeliveryDistance(), DELTA);
+	}
+	
+	@Test
+	public void TwoDiffCustomerOfSameTypeDVCHaveDiffDelivDist() throws CustomerException {
+		assertNotEquals(CustomerFactory.getCustomer("DVC", "Mark", "0447539207", 3, -4).getDeliveryDistance(),
+				CustomerFactory.getCustomer("DVC", "Mark", "0447539207", -5, 4).getDeliveryDistance(), DELTA);
+	}
+	
+	@Test
+	public void TwoDiffCustomerOfSameTypeDNCHaveDiffDelivDist() throws CustomerException {
+		assertNotEquals(CustomerFactory.getCustomer("DNC", "Mark", "0447539207", -5, 2).getDeliveryDistance(),
+				CustomerFactory.getCustomer("DNC", "Mark", "0447539207", -5, 4).getDeliveryDistance(), DELTA);
 	}
 
 	// ----------- Exception Testing -------------
@@ -193,11 +248,26 @@ public class CustomerFactoryTests {
 	}
 	
 	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhenXLocationNotZeroIfPickUp() throws CustomerException {
+		expectedString = "Pick Up";
+		assertEquals(expectedString, 
+				CustomerFactory.getCustomer("PUC", "Mark", "0447539207", 4, 0).getCustomerType());
+	}
+	
+	@Test(expected=CustomerException.class)
+	public void exceptionThrownWhenYLocationNotZeroIfPickUp() throws CustomerException {
+		expectedString = "Pick Up";
+		assertEquals(expectedString, 
+				CustomerFactory.getCustomer("PUC", "Mark", "0447539207", 0, -4).getCustomerType());
+	}
+	
+	@Test(expected=CustomerException.class)
 	public void exceptionThrownWhenXAndYLocationNotZeroIfPickUp() throws CustomerException {
 		expectedString = "Pick Up";
 		assertEquals(expectedString, 
-				CustomerFactory.getCustomer("PUC", "Mark", "0447539207", 3, 4).getCustomerType());
+				CustomerFactory.getCustomer("PUC", "Mark", "0447539207", 4, -4).getCustomerType());
 	}
+
 
 	@Test(expected=CustomerException.class)
 	public void exceptionThrownWhenXAndYLocationIsZeroIfDroneDelivery() throws CustomerException {

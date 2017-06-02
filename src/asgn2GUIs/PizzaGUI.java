@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.HeadlessException;
@@ -55,6 +56,7 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
     private JTextField totals;
     private JComboBox filter;
     private JFileChooser fileChooser;
+    private Font font;
     private String quickDir = "C:\\Users\\dougm\\OneDrive\\BIT - Semester 3\\CAB302 Software Development\\git\\asgn2\\logs",
             filterString;
     private String[] columnNamesCustomer = { "Name", "Number", "Type", "X-Location", "Y-Location", "Distance" },
@@ -93,6 +95,9 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
 
         filter = new JComboBox(filterChoice);
         totals = new JTextField();
+        font = new Font(totals.getText(), Font.BOLD, 12);
+        totals.setEditable(false);
+        totals.setFont(font);
 
         pnlDisplay.setLayout(new BorderLayout());
         pnlRight.setLayout(new BorderLayout());
