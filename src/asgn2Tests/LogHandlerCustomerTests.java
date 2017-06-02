@@ -19,7 +19,8 @@ import asgn2Customers.Customer;
  * @author Person A - Calum
  */
 public class LogHandlerCustomerTests {
-	private static final int FIRST_INDEX = 0, NON_EXISTENT_INDEX = 1, SECOND_INDEX = 1;
+	private static final int FIRST_INDEX = 0, NON_EXISTENT_INDEX = 1, 
+			SECOND_INDEX = 1, THIRD_INDEX = 2;
 	private static final double DELTA = 1e-15;
 	private static final int FIRST_LINE = FIRST_INDEX;
 	private LogHandler log, nonInstanciatedLog;
@@ -122,6 +123,60 @@ public class LogHandlerCustomerTests {
 		dataSet = LogHandler.populateCustomerDataset("empty.txt");
 		dataSet.add(LogHandler.createCustomer("18:00:00,18:20:00,John Smith,0447539207,DVC,5,-4,PZV,4"));
 		assertEquals(expectedString, dataSet.get(FIRST_INDEX).getName());
+	}
+	
+	@Test
+	public void createCustomerAndRetrieveCorrectInfoName() throws CustomerException, LogHandlerException {
+		dataSet = LogHandler.populateCustomerDataset("empty.txt");
+		dataSet.add(LogHandler.createCustomer("18:00:00,18:20:00,Julian Smith,0123456798,DNC,10,-3,PZV,2"));
+		expectedString = "Julian Smith";
+		assertEquals(expectedString, dataSet.get(FIRST_INDEX).getName());
+	}
+	
+	@Test
+	public void createCustomerAndRetrieveCorrectInfoMobNum() throws CustomerException, LogHandlerException {
+		dataSet = LogHandler.populateCustomerDataset("empty.txt");
+		dataSet.add(LogHandler.createCustomer("18:00:00,18:20:00,Julian Smith,0123456798,DNC,10,-3,PZV,2"));
+		expectedString = "0123456798";
+		assertEquals(expectedString, dataSet.get(FIRST_INDEX).getMobileNumber());
+	}
+	
+	@Test
+	public void createCustomerAndRetrieveCorrectInfoXCoord() throws CustomerException, LogHandlerException {
+		dataSet = LogHandler.populateCustomerDataset("empty.txt");
+		dataSet.add(LogHandler.createCustomer("18:00:00,18:20:00,Julian Smith,0123456798,DNC,10,-3,PZV,2"));
+		expectedResult = 10;
+		assertEquals(expectedResult, dataSet.get(FIRST_INDEX).getLocationX());
+	}
+	
+	@Test
+	public void createCustomerAndRetrieveCorrectInfoYCoord() throws CustomerException, LogHandlerException {
+		dataSet = LogHandler.populateCustomerDataset("empty.txt");
+		dataSet.add(LogHandler.createCustomer("18:00:00,18:20:00,Julian Smith,0123456798,DNC,10,-3,PZV,2"));
+		expectedResult = -3;
+		assertEquals(expectedResult, dataSet.get(FIRST_INDEX).getLocationY());
+	}
+	
+	@Test
+	public void createCustomerAndRetrieveCorrectInfoDelivDist() throws CustomerException, LogHandlerException {
+		dataSet = LogHandler.populateCustomerDataset("empty.txt");
+		dataSet.add(LogHandler.createCustomer("18:00:00,18:20:00,Julian Smith,0123456798,DNC,10,-3,PZV,2"));
+		expectedCalc = 10.44;
+		assertEquals(expectedCalc, dataSet.get(FIRST_INDEX).getDeliveryDistance(), DELTA);
+	}
+	
+	@Test
+	public void createCustomerAndRetrieveCorrectInfoWithMultipleIndices() throws CustomerException, LogHandlerException {
+		dataSet = LogHandler.populateCustomerDataset("empty.txt");
+		dataSet.add(LogHandler.createCustomer("18:00:00,18:20:00,Julian Smith,0123456798,DNC,10,-3,PZV,2"));
+		dataSet.add(LogHandler.createCustomer("18:00:00,18:50:30,Mark Smith,0123457698,DVC,0,5,PZN,5"));
+		dataSet.add(LogHandler.createCustomer("18:00:00,18:50:30,Mark Johnston,0123457698,DVC,0,5,PZL,5"));
+		expectedString = "Julian Smith";
+		assertEquals(expectedString, dataSet.get(FIRST_INDEX).getName());
+		expectedString = "Mark Smith";
+		assertEquals(expectedString, dataSet.get(SECOND_INDEX).getName());
+		expectedString = "Mark Johnston";
+		assertEquals(expectedString, dataSet.get(THIRD_INDEX).getName());
 	}
 	
 	@Test

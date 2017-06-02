@@ -157,7 +157,7 @@ public class RestaurantCustomerTests {
 	PizzaException, LogHandlerException {
 		pr.processLog(FIRST_LOG_FILE);
 		// First Line TD = 10.0, Second Line TD = 5.0, Third Line = 0
-		expectedCalc = 15.0; // 10.0 + 5.0 + 0 = 15.0
+		expectedCalc = 15.0; // 10.0 + 5.0 + 0.0 = 15.0
 		assertEquals(expectedCalc, pr.getTotalDeliveryDistance(), DELTA);
 	}
 	
