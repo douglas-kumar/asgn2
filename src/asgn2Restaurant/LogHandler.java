@@ -69,11 +69,11 @@ public class LogHandler {
         try {
             customerList = Files.readAllLines(file);
         } catch (IOException e) {
+        	// throws if the file is not a .txt format or cannot read file lines
             throw new LogHandlerException("Could not read the file " + filename + ", check the file");
-        }
+        } 
 
         for (String customer : customerList) {
-        	// TODO: if (customerList.size() > customers.size()) throw new LogHandlerException("Index is out of range");
             Customer next;
             next = createCustomer(customer);
             customers.add(next);
@@ -101,7 +101,8 @@ public class LogHandler {
      * 
      */
     public static ArrayList<Pizza> populatePizzaDataset(String filename) throws PizzaException, LogHandlerException {
-
+    	
+    	// creates a list to accumulate log file entries into
         ArrayList<Pizza> listOfPizzas = new ArrayList<Pizza>();
 
         Path file = FileSystems.getDefault().getPath("logs", filename);
@@ -110,6 +111,7 @@ public class LogHandler {
         try {
             pizzaList = Files.readAllLines(file);
         } catch (IOException e) {
+        	// throws if the file is not a .txt format or cannot read file lines
             throw new LogHandlerException("Cannot read: " + filename + " Please check it is in the right directory");
         }
 
@@ -192,7 +194,8 @@ public class LogHandler {
         int quantity;
         LocalTime orderTime, deliveryTime;
         Pizza pizza;
-
+        
+        // checks there is a correct amount of data in a log file
         if (data.length != ITEMS_PER_LINE)
             throw new LogHandlerException("log file does not contain correct amount of data or valid data");
         try {

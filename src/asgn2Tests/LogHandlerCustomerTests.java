@@ -282,7 +282,6 @@ public class LogHandlerCustomerTests {
 		dataSet.add(LogHandler.createCustomer("18:00:00,18:20:00,John Smith,0447539207,PUC,0,0,PZV"));
 	}
 	
-	// NEED TO CHANGE TO LOGHANDLER EXCEPTION?
 	@Test(expected=IndexOutOfBoundsException.class)
 	public void exceptionThrownWhenGetCustomerOutOfIndex() throws CustomerException, 
 	LogHandlerException {

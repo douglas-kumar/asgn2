@@ -158,6 +158,8 @@ public class PizzaRestaurant {
         for (Customer customer : customers) {
             totalDistance += customer.getDeliveryDistance();
         }
+        
+        // rounds to 2 decimal places (rounding up if thousandths value is 5 or higher
         return Math.round(totalDistance * DECIMALS) / DECIMALS;
     }
 
@@ -174,6 +176,7 @@ public class PizzaRestaurant {
             totalProfit += pizza.getOrderProfit();
         }
 
+        // rounds to 2 decimal places (rounding up if thousandths value is 5 or higher
         return Math.round(totalProfit * DECIMALS) / DECIMALS;
     }
 
