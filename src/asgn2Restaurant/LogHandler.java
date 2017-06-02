@@ -54,7 +54,8 @@ public class LogHandler {
      *             (passed by another class).
      * @throws LogHandlerException
      *             If there was a problem with the log file not related to the
-     *             semantic errors above
+     *             semantic errors above or the log file is empty or of invalid
+     *             format
      * 
      */
     public static ArrayList<Customer> populateCustomerDataset(String filename)
@@ -71,9 +72,13 @@ public class LogHandler {
         } catch (IOException e) {
             throw new LogHandlerException("Could not read the file " + filename + ", check the file");
         }
+        if (customerList.isEmpty()) {
+            throw new LogHandlerException("That log file is empty");
+        }
 
         for (String customer : customerList) {
-        	// TODO: if (customerList.size() > customers.size()) throw new LogHandlerException("Index is out of range");
+            // TODO: if (customerList.size() > customers.size()) throw new
+            // LogHandlerException("Index is out of range");
             Customer next;
             next = createCustomer(customer);
             customers.add(next);
@@ -97,7 +102,8 @@ public class LogHandler {
      *             another class).
      * @throws LogHandlerException
      *             If there was a problem with the log file not related to the
-     *             semantic errors above
+     *             semantic errors above or the log file is empty or of invalid
+     *             format
      * 
      */
     public static ArrayList<Pizza> populatePizzaDataset(String filename) throws PizzaException, LogHandlerException {
@@ -110,7 +116,10 @@ public class LogHandler {
         try {
             pizzaList = Files.readAllLines(file);
         } catch (IOException e) {
-            throw new LogHandlerException("Cannot read: " + filename + " Please check it is in the right directory");
+            throw new LogHandlerException("Cannot read: " + filename + " Please check the file");
+        }
+        if (pizzaList.isEmpty()) {
+            throw new LogHandlerException("That log file is empty");
         }
 
         for (String pizza : pizzaList) {

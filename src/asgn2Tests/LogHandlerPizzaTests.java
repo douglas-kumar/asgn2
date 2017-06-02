@@ -57,7 +57,7 @@ public class LogHandlerPizzaTests {
         assertEquals(5, pizzas.get(74).getQuantity());
     }
 
-    @Test
+    @Test(expected = LogHandlerException.class)
     public void readFromEmptyLog() throws PizzaException, LogHandlerException {
         pizzas = LogHandler.populatePizzaDataset("empty.txt");
     }

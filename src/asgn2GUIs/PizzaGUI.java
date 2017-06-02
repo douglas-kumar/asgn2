@@ -197,7 +197,7 @@ public class PizzaGUI extends javax.swing.JFrame implements Runnable, ActionList
                         btnReset.setEnabled(true);
                         btnLoad.setEnabled(false);
                     } else {
-                        JOptionPane.showMessageDialog(this, "Cannot load file type, please choose a .txt file",
+                        JOptionPane.showMessageDialog(this, "Cannot load file, please choose a valid file",
                                 "Load Failed", JOptionPane.INFORMATION_MESSAGE);
                     }
 
