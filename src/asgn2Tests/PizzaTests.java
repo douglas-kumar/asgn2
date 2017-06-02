@@ -1,6 +1,8 @@
 package asgn2Tests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -12,6 +14,7 @@ import asgn2Exceptions.PizzaException;
 import asgn2Pizzas.MargheritaPizza;
 import asgn2Pizzas.MeatLoversPizza;
 import asgn2Pizzas.Pizza;
+import asgn2Pizzas.PizzaTopping;
 import asgn2Pizzas.VegetarianPizza;
 
 /**
@@ -20,12 +23,13 @@ import asgn2Pizzas.VegetarianPizza;
  * an instance of asgn2Pizzas.MeatLoversPizza should be used to test the
  * functionality of the asgn2Pizzas.Pizza abstract class.
  * 
- * @author Person B
+ * @author Person B - Douglas
  *
  */
 public class PizzaTests {
     private static final double DELTA = 1e-15;
     private Pizza pizza1;
+    private Pizza pizza2;
 
     @Before
     public void setup() throws PizzaException {
@@ -38,8 +42,18 @@ public class PizzaTests {
     }
 
     @Test(expected = PizzaException.class)
+    public void orderWithNegativeQuantity2() throws PizzaException {
+        pizza1 = new MeatLoversPizza(-24, LocalTime.of(19, 20, 00), LocalTime.of(19, 43, 00));
+    }
+
+    @Test(expected = PizzaException.class)
     public void orderWithOverTenQuantity() throws PizzaException {
         pizza1 = new VegetarianPizza(11, LocalTime.of(19, 30, 00), LocalTime.of(19, 50, 00));
+    }
+
+    @Test(expected = PizzaException.class)
+    public void orderWithOverTenQuantity2() throws PizzaException {
+        pizza1 = new VegetarianPizza(18, LocalTime.of(19, 30, 00), LocalTime.of(19, 50, 00));
     }
 
     @Test(expected = PizzaException.class)
@@ -161,6 +175,82 @@ public class PizzaTests {
 
     @Test
     public void checkMargheritaToppings() {
+        assertTrue(pizza1.containsTopping(PizzaTopping.TOMATO));
+        assertTrue(pizza1.containsTopping(PizzaTopping.CHEESE));
+    }
 
+    @Test
+    public void checkVegetarianToppings() throws PizzaException {
+        pizza1 = new VegetarianPizza(1, LocalTime.of(19, 14, 00), LocalTime.of(19, 33, 00));
+        assertTrue(pizza1.containsTopping(PizzaTopping.TOMATO));
+        assertTrue(pizza1.containsTopping(PizzaTopping.CHEESE));
+        assertTrue(pizza1.containsTopping(PizzaTopping.EGGPLANT));
+        assertTrue(pizza1.containsTopping(PizzaTopping.MUSHROOM));
+        assertTrue(pizza1.containsTopping(PizzaTopping.CAPSICUM));
+    }
+
+    @Test
+    public void checkMeatLoversToppings() throws PizzaException {
+        pizza1 = new MeatLoversPizza(9, LocalTime.of(19, 16, 30), LocalTime.of(19, 48, 14));
+        assertTrue(pizza1.containsTopping(PizzaTopping.TOMATO));
+        assertTrue(pizza1.containsTopping(PizzaTopping.CHEESE));
+        assertTrue(pizza1.containsTopping(PizzaTopping.BACON));
+        assertTrue(pizza1.containsTopping(PizzaTopping.PEPPERONI));
+        assertTrue(pizza1.containsTopping(PizzaTopping.SALAMI));
+    }
+
+    @Test
+    public void checkQuantity() {
+        assertEquals(2, pizza1.getQuantity());
+    }
+
+    @Test
+    public void checkQuantity2() throws PizzaException {
+        pizza1 = new VegetarianPizza(5, LocalTime.of(19, 05, 00), LocalTime.of(19, 30, 00));
+        assertEquals(5, pizza1.getQuantity());
+    }
+
+    @Test
+    public void checkQuantity3() throws PizzaException {
+        pizza1 = new MeatLoversPizza(9, LocalTime.of(21, 45, 00), LocalTime.of(22, 8, 00));
+        assertEquals(9, pizza1.getQuantity());
+    }
+
+    @Test
+    public void getMargheritaType() {
+        assertEquals("Margherita", pizza1.getPizzaType());
+    }
+
+    @Test
+    public void getVegetarianType() throws PizzaException {
+        pizza1 = new VegetarianPizza(5, LocalTime.of(19, 05, 00), LocalTime.of(19, 30, 00));
+        assertEquals("Vegetarian", pizza1.getPizzaType());
+    }
+
+    @Test
+    public void getMeatLoversType() throws PizzaException {
+        pizza1 = new MeatLoversPizza(9, LocalTime.of(21, 45, 00), LocalTime.of(22, 8, 00));
+        assertEquals("Meat Lovers", pizza1.getPizzaType());
+    }
+
+    @Test
+    public void checkIdenticalOrder() throws PizzaException {
+        pizza1 = new MeatLoversPizza(4, LocalTime.of(22, 00, 00), LocalTime.of(22, 20, 00));
+        pizza2 = new MeatLoversPizza(4, LocalTime.of(22, 00, 00), LocalTime.of(22, 20, 00));
+        assertTrue(pizza1.equals(pizza2));
+    }
+
+    @Test
+    public void checkDifferentOrders() throws PizzaException {
+        pizza1 = new VegetarianPizza(2, LocalTime.of(20, 00, 00), LocalTime.of(20, 30, 00));
+        pizza2 = new VegetarianPizza(1, LocalTime.of(20, 00, 00), LocalTime.of(20, 30, 00));
+        assertFalse(pizza1.equals(pizza2));
+    }
+
+    @Test
+    public void checkDifferentTypesNotEqual() throws PizzaException {
+        pizza1 = new VegetarianPizza(2, LocalTime.of(20, 00, 00), LocalTime.of(20, 30, 00));
+        pizza2 = new MargheritaPizza(2, LocalTime.of(20, 00, 00), LocalTime.of(20, 30, 00));
+        assertFalse(pizza1.equals(pizza2));
     }
 }
