@@ -13,7 +13,7 @@ import org.junit.Test;
  * asgn2Customers.DroneDeliveryCustomer classes. Note that an instance of asgn2Customers.DriverDeliveryCustomer 
  * should be used to test the functionality of the  asgn2Customers.Customer abstract class. 
  * 
- * @author Person A
+ * @author Person A - Calum
  * 
  *
  */
@@ -461,6 +461,13 @@ public class CustomerTests {
 	@Test
 	public void checkTypesAreDiffBetweenDriverAndPickUpClasses() {
 		assertNotSame(hank.getCustomerType(), john.getCustomerType());
+	}
+	
+	// Abstract class cannot be tested
+	@Test(expected=NullPointerException.class)
+	public void exceptionThrownWhenTestingCustomerDirectly () {
+		Customer customer = null;
+		customer.getCustomerType();
 	}
 	
 }

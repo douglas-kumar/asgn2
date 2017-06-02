@@ -11,7 +11,7 @@ import org.junit.Test;
 /**
  * A class the that tests the asgn2Customers.CustomerFactory class.
  * 
- * @author Person A
+ * @author Person A - Calum
  *
  */
 public class CustomerFactoryTests {

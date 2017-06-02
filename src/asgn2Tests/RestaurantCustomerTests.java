@@ -18,13 +18,13 @@ import asgn2Customers.Customer;
  * A class that that tests the methods relating to the handling of Customer objects in the asgn2Restaurant.PizzaRestaurant
  * class as well as processLog and resetDetails.
  * 
- * @author Person A
+ * @author Person A -  Calum
  */
 public class RestaurantCustomerTests {
 	private static final double DELTA = 1e-15;
 	private static final int FIRST_LINE = 0, EMPTY_LOG_LINE = 4, 
 			NEGATIVE_LINE_NUM = -1;
-	private static final String FIRST_LOG_FILE = "20170101.txt";
+	private static final String FIRST_LOG_FILE = "20170101.txt", SECOND_LOG_FILE = "20170102.txt";
 	private PizzaRestaurant pr, nonInstanciatedPR;
 	private int expectedResult;
 	private String expectedString;
@@ -157,8 +157,27 @@ public class RestaurantCustomerTests {
 	PizzaException, LogHandlerException {
 		pr.processLog(FIRST_LOG_FILE);
 		// First Line TD = 10.0, Second Line TD = 5.0, Third Line = 0
-		expectedCalc = 15.0; // 10.0 + 5.0 + 0 = 15.0
+		expectedCalc = 15.0; // 10.0 + 5.0 + 0.0 = 15.0
 		assertEquals(expectedCalc, pr.getTotalDeliveryDistance(), DELTA);
+	}
+	
+	@Test
+	public void dataResetsThenContinuesValuesAfterReset() throws CustomerException, 
+	PizzaException, LogHandlerException {
+		pr.processLog(FIRST_LOG_FILE);
+		pr.getNumCustomerOrders();
+		pr.resetDetails();
+		pr.processLog(FIRST_LOG_FILE);
+		expectedResult = 3;
+		assertEquals(expectedResult, pr.getNumPizzaOrders());
+	}
+	
+	@Test
+	public void NumOfPizzaOrdersIsSameAsNumOfCustomerOrders() throws CustomerException, 
+	PizzaException, LogHandlerException {
+		pr.processLog(FIRST_LOG_FILE);
+		assertSame(pr.getNumCustomerOrders(), pr.getNumPizzaOrders());
+		assertEquals(pr.getNumCustomerOrders(), pr.getNumPizzaOrders());
 	}
 	
 	// ------------------ Exception Testing --------------------------	
@@ -182,8 +201,7 @@ public class RestaurantCustomerTests {
 	PizzaException, LogHandlerException {
 		pr.processLog(FIRST_LOG_FILE);
 		pr.resetDetails();
-		expectedResult = 0;
 		pr.getCustomerByIndex(FIRST_LINE);
-	} 
+	}
 	
 }
